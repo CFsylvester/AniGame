@@ -10,23 +10,23 @@
     <script src="https://kit.fontawesome.com/5ed544d1c5.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <main>
+    <main id="main-content">
         <!--Search container-->
         <div id = "h1text" class="container has-text-centered">
             <h1 class="is-family-monospace is-size-5 has-text-light">Search by Title:</h1>
         </div>
         <div class = "columns is-centered">
             <div class="column is-half">
-                <div class="field is-grouped">
+                <form id="search-form" class="field is-grouped">
                     <p class="control is-expanded">
-                      <input class="input" type="text" placeholder="Game Title">
+                      <input id="search-bar" class="input" type="text" placeholder="Game Title">
                     </p>
                     <p class="control">
-                      <a class="button is-black" type="submit" value="Submit input">
+                      <button id="search-button" form="search-form" class="button is-black" type="submit" value="Submit input">
                         Search
-                      </a>
+                      </button>
                     </p>
-                </div>
+                </form>
             </div>
         </div>
         <!--Buttons Container-->
@@ -76,5 +76,6 @@
             </section>
         </body>
     </main>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
