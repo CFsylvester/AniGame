@@ -30,6 +30,8 @@ function gameRequest(gameName) {
             resultsContainer.appendChild(gameImg);
 
             // fetch gameName from kitsu api
+
+            // SHOULD WE MOVE THE KITSU API FETCH INTO A SEPERATE FUNCTION AND CALL?
             return fetch("https://kitsu.io/api/edge/anime?filter[text]=" + gameName);
         })
         .then(function (animeResponse) {
@@ -37,7 +39,22 @@ function gameRequest(gameName) {
         })
         .then(function (animeResponse) {
             console.log(animeResponse);
-            // Kitsu API results related to gameName value
+
+            // convert game title and anime title to uppercase to check for correct titles
+            var animeName = animeResponse.data[0].attributes.canonicalTitle;
+            var animeNameUp = animeName.toUpperCase();
+            var gameNameUp = gameName.toUpperCase();
+
+            if (animeNameUp.includes(gameNameUp) === false) {
+                console.log("testing error");
+                $("#anime-alert").addClass("is-active");
+                $("#anime-alert-text").html("<p>There weren't any anime found for " + gameName + ".</p>");
+                $("#anime-alert-btn").on("click", function () {
+                    ($("#anime-alert").removeClass("is-active"));
+                });
+                return;
+            }
+            // Kitsu API results related to gameName valuE
 
             // create a container for all the kitsu api results
             var animeContainer = document.createElement("div");
@@ -48,11 +65,12 @@ function gameRequest(gameName) {
             // div to contain title, rating and description
             var animeInfoEl = document.createElement("div");
             animeInfoEl.setAttribute("id", "anime-info");
-            animeInfoEl.classList = "column container is-family-monospace is-size-5 has-text-black-bis";
+            animeInfoEl.classList = "column container has-text-centered is-family-monospace is-size-2 has-text-black-bis";
+            animeInfoEl.innerHTML = "<h2>Anime found for " + gameName + ":";
             animeContainer.appendChild(animeInfoEl);
 
             // display title 
-            var animeTitle = document.createElement("h2");
+            var animeTitle = document.createElement("h3");
             animeTitle.setAttribute("id", "anime-title");
             animeTitle.classList = "column container has-text-centered is-family-monospace is-size-3 has-text-black-bis";
             animeTitle.innerHTML = animeResponse.data[0].attributes.canonicalTitle;
@@ -81,6 +99,7 @@ function gameRequest(gameName) {
             animeRatingEl.appendChild(animeStar5);
 
             // create an if else statement to highlight or fill star icons depending on value of animeRating
+            // SHOULD THIS GET MOVED INTO A SEPERATE FUNCTION?
             var animeRating = animeResponse.data[0].attributes.averageRating;
             console.log(animeRating);
 
@@ -145,7 +164,6 @@ function gameRequest(gameName) {
         })
         .catch(function (error) {
             console.log(error);
-            alert("Looks like there's an error :(");
         });
 };
 
