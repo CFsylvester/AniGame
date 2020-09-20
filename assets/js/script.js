@@ -2,7 +2,7 @@ var gamespotKey = "e1c898ffd3a1cccaf5ff6ef297f51a43f05238a3";
 var searchForm = document.querySelector("#search-form");
 var searchBar = document.querySelector("#search-bar");
 var contentEl = document.querySelector("#main-content");
-var resultsContainerEL = document.querySelector("results-container");
+var resultsContainerEL = document.querySelector("#results-container");
 var GameColumnsContainerEl = document.querySelector("#game-columns-container");
 
 
@@ -20,12 +20,15 @@ function gameRequest(gameName) {
             var gameColumnEl = document.createElement("div");
             var gameColumnsEl = document.createElement("div");
             var columnImageEl = document.createElement("div");
+
             var gameImgContainerEl = document.createElement("div");
             var gameImg = document.createElement("img");
+
             var columnDescriptionEl = document.createElement("div");
             var gameTitleContainerEl = document.createElement("div");
             var gameTitleEl = document.createElement("h1");
             var gameTitleText = document.createTextNode(response.results[0].name)
+            
             var gameStarsEl = document.createElement("div");
             var gameTitleStarSpan = document.createElement("span");
             var gameTitleStar1 = document.createElement("i");
@@ -33,16 +36,17 @@ function gameRequest(gameName) {
             var gameTitleStar3 = document.createElement("i");
             var gameTitleStar4 = document.createElement("i");
             var gameTitleStar5 = document.createElement("i");
+
             var gameSummaryEl = document.createElement("div");
             var gameSummary = document.createElement("p");
             var gameSummaryText = document.createTextNode(response.results[0].description);
             //Set Attribute
             gameColumnEl.setAttribute("id", "game-column");
-            gameColumnEl.setAttribute("class", "column is-three-fifths is-offset-one-fifth has-background-grey-lighter has-text-black-bis");
+            gameColumnEl.setAttribute("class", "column is-three-fifths is-offset-one-fifth has-background-grey-lighter is-family-monospace has-text-black-bis");
             gameColumnsEl.setAttribute("id", "game-column");
             gameColumnsEl.setAttribute("class", "columns is-mobile");
             columnImageEl.setAttribute("id", "column-image");
-            columnImageEl.setAttribute("class", "column is-one-third");
+            columnImageEl.setAttribute("class", "column is-one-third is-centered");
             gameImgContainerEl.setAttribute("id", "game-img");
             gameImgContainerEl.setAttribute("class", "container has-text-centered");
             gameImg.setAttribute("id", "game-image");
@@ -62,7 +66,7 @@ function gameRequest(gameName) {
             gameTitleStar4.setAttribute("class", "fas fa-star");
             gameTitleStar5.setAttribute("class", "fas fa-star");
             //Append Child
-            //GameColumnsContainerEl.appendChild(gameColumnEl);
+            GameColumnsContainerEl.appendChild(gameColumnEl);
             gameColumnEl.appendChild(gameColumnsEl);
             gameColumnsEl.appendChild(columnImageEl);
             columnImageEl.appendChild(gameImgContainerEl);
@@ -83,9 +87,9 @@ function gameRequest(gameName) {
             gameSummaryEl.appendChild(gameSummary);
             gameSummary.appendChild(gameSummaryText);
 
-            // fetch gameName from kitsu api
-
+            
             // SHOULD WE MOVE THE KITSU API FETCH INTO A SEPERATE FUNCTION AND CALL?
+            
             return fetch("https://kitsu.io/api/edge/anime?filter[text]=" + gameName);
         })
         .then(function (animeResponse) {
@@ -113,20 +117,20 @@ function gameRequest(gameName) {
             // create a container for all the kitsu api results
             var animeContainer = document.createElement("div");
             animeContainer.setAttribute("id", "anime-container");
-            animeContainer.classList = "columns is-vcentered anime-class has-background-grey-lighter";
+            animeContainer.classList = "column anime-class is-three-fifths is-offset-one-fifth has-text-centered is-family-monospace has-background-grey-lighter has-text-black-bis";
             resultsContainerEL.appendChild(animeContainer);
 
-            // div to contain title, rating and description
+            // div to contain title, rating and //description
             var animeInfoEl = document.createElement("div");
             animeInfoEl.setAttribute("id", "anime-info");
-            animeInfoEl.classList = "column container has-text-centered is-family-monospace is-size-2 has-text-black-bis";
-            animeInfoEl.innerHTML = "<h2>Anime found for " + gameName + ":";
+            animeInfoEl.classList = "container has-text-centered is-size-5";
+            animeInfoEl.innerHTML = "Anime found for " + gameName + ":";
             animeContainer.appendChild(animeInfoEl);
 
             // display title 
             var animeTitle = document.createElement("h3");
             animeTitle.setAttribute("id", "anime-title");
-            animeTitle.classList = "column container has-text-centered is-family-monospace is-size-3 has-text-black-bis";
+            animeTitle.classList = "title has-text-centered is-size-3";
             animeTitle.innerHTML = animeResponse.data[0].attributes.canonicalTitle;
             animeInfoEl.appendChild(animeTitle);
 
@@ -145,7 +149,7 @@ function gameRequest(gameName) {
             animeStar5.classList = "far fa-star";
 
             animeRatingEl.classList = "column container has-text-centered is-family-monospace is-size-4 has-text-black-bis";
-            animeInfoEl.appendChild(animeRatingEl);
+            animeTitle.appendChild(animeRatingEl);
             animeRatingEl.appendChild(animeStar1);
             animeRatingEl.appendChild(animeStar2);
             animeRatingEl.appendChild(animeStar3);
@@ -194,27 +198,23 @@ function gameRequest(gameName) {
                 animeStar5.classList.add("fas");
             };
 
-            // display description
-            var animeDescription = document.createElement("p");
-            animeDescription.setAttribute("id", "anime-description");
-            animeDescription.classList = "column container has-text-left is-family-monospace is-size-6 has-text-black-bis";
-            animeDescription.innerHTML = animeResponse.data[0].attributes.description;
-            animeInfoEl.appendChild(animeDescription);
-
             // display video of the anime
             var animeVidContainer = document.createElement("div");
-            animeVidContainer.classList = "is-centered";
+            animeVidContainer.classList = "container is-centered";
             animeContainer.appendChild(animeVidContainer);
 
             var animeVid = document.createElement("iframe");
             animeVid.setAttribute("id", "anime-video");
-            animeVid.classList = "column is-centered";
             animeVid.setAttribute("src", "https://www.youtube.com/embed/" + animeResponse.data[0].attributes.youtubeVideoId + "?controls=1");
-            animeVid.setAttribute("width", "560px");
-            animeVid.setAttribute("height", "340px");
             animeVid.setAttribute("alt", "Trailer for " + gameName);
             animeVidContainer.appendChild(animeVid);
 
+            // display description
+            var animeDescription = document.createElement("p");
+            animeDescription.setAttribute("id", "anime-description");
+            animeDescription.classList = "container has-text-left is-family-monospace is-size-6 has-text-black-bis";
+            animeDescription.innerHTML = animeResponse.data[0].attributes.description;
+            animeVidContainer.appendChild(animeDescription);
         })
         .catch(function (error) {
             console.log(error);
