@@ -3,6 +3,8 @@ var searchForm = document.querySelector("#search-form");
 var searchBar = document.querySelector("#search-bar");
 var contentEl = document.querySelector("#main-content");
 var resultsContainer = document.createElement("section");
+var GameColumnsContainerEl = document.querySelector("#game-columns-container");
+
 
 function gameRequest(gameName) {
     var gameApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + gameName + "&format=json";
@@ -12,22 +14,74 @@ function gameRequest(gameName) {
             return response.json();
         })
         .then(function (response) {
-            // log the fetch response
             console.log(response);
-
-            // append results container to hold fetch results
-            resultsContainer.classList = "section";
-            resultsContainer.setAttribute("id", "results-container");
-            contentEl.appendChild(resultsContainer);
-
-            // add endpoints from the Gamespot API to insert into HTML elements
-
-            // display main image of the game
+            
+            //Create Element
+            var gameColumnEl = document.createElement("div");
+            var gameColumnsEl = document.createElement("div");
+            var columnImageEl = document.createElement("div");
+            var gameImgContainerEl = document.createElement("div");
             var gameImg = document.createElement("img");
+            var columnDescriptionEl = document.createElement("div");
+            var gameTitleContainerEl = document.createElement("div");
+            var gameTitleEl = document.createElement("h1");
+            var gameTitleText = document.createTextNode(response.results[0].name)
+            var gameStarsEl = document.createElement("div");
+            var gameTitleStarSpan = document.createElement("span");
+            var gameTitleStar1 = document.createElement("i");
+            var gameTitleStar2 = document.createElement("i");
+            var gameTitleStar3 = document.createElement("i");
+            var gameTitleStar4 = document.createElement("i");
+            var gameTitleStar5 = document.createElement("i");
+            var gameSummaryEl = document.createElement("div");
+            var gameSummary = document.createElement("p");
+            var gameSummaryText = document.createTextNode(response.results[0].description);
+            //Set Attribute
+            gameColumnEl.setAttribute("id", "game-column");
+            gameColumnEl.setAttribute("class", "column is-three-fifths is-offset-one-fifth has-background-grey-lighter has-text-black-bis");
+            gameColumnsEl.setAttribute("id", "game-column");
+            gameColumnsEl.setAttribute("class", "columns is-mobile");
+            columnImageEl.setAttribute("id", "column-image");
+            columnImageEl.setAttribute("class", "column is-one-third");
+            gameImgContainerEl.setAttribute("id", "game-img");
+            gameImgContainerEl.setAttribute("class", "container has-text-centered");
             gameImg.setAttribute("id", "game-image");
-            gameImg.setAttribute("src", response.results[0].image.square_small);
+            gameImg.setAttribute("src", response.results[0].image.square_tiny);
             gameImg.setAttribute("alt", "Image of " + gameName);
-            resultsContainer.appendChild(gameImg);
+            columnDescriptionEl.setAttribute("id", "column-description");
+            columnDescriptionEl.setAttribute("class", "column");
+            gameTitleContainerEl.setAttribute("id", "game-title");
+            gameTitleContainerEl.setAttribute("class", "container has-text-centere");
+            gameTitleEl.setAttribute("class", "title");
+            gameStarsEl.setAttribute("id", "game-stars");
+            gameStarsEl.setAttribute("class", "container has-text-centered");
+            gameTitleStarSpan.setAttribute("class", "icon my-2 is-large");
+            gameTitleStar1.setAttribute("class", "fas fa-star");
+            gameTitleStar2.setAttribute("class", "fas fa-star");
+            gameTitleStar3.setAttribute("class", "fas fa-star");
+            gameTitleStar4.setAttribute("class", "fas fa-star");
+            gameTitleStar5.setAttribute("class", "fas fa-star");
+            //Append Child
+            GameColumnsContainerEl.appendChild(gameColumnEl);
+            gameColumnEl.appendChild(gameColumnsEl);
+            gameColumnsEl.appendChild(columnImageEl);
+            columnImageEl.appendChild(gameImgContainerEl);
+            gameImgContainerEl.appendChild(gameImg);
+            gameColumnsEl.appendChild(columnDescriptionEl);
+            columnDescriptionEl.appendChild(gameTitleContainerEl);
+            gameTitleContainerEl.appendChild(gameTitleEl);
+            gameTitleEl.appendChild(gameTitleText);
+            columnDescriptionEl.appendChild(gameStarsEl);
+            gameStarsEl.appendChild(gameTitleStarSpan);
+            gameTitleStarSpan.appendChild(gameTitleStar1);
+            gameTitleStarSpan.appendChild(gameTitleStar2);
+            gameTitleStarSpan.appendChild(gameTitleStar3);
+            gameTitleStarSpan.appendChild(gameTitleStar4);
+            gameTitleStarSpan.appendChild(gameTitleStar5);
+            gameStarsEl.appendChild(gameTitleStarSpan);
+            columnDescriptionEl.appendChild(gameSummaryEl);
+            gameSummaryEl.appendChild(gameSummary);
+            gameSummary.appendChild(gameSummaryText);
 
             // fetch gameName from kitsu api
 
