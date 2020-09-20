@@ -2,7 +2,7 @@ var gamespotKey = "e1c898ffd3a1cccaf5ff6ef297f51a43f05238a3";
 var searchForm = document.querySelector("#search-form");
 var searchBar = document.querySelector("#search-bar");
 var contentEl = document.querySelector("#main-content");
-var resultsContainer = document.createElement("section");
+var resultsContainerEL = document.querySelector("results-container");
 var GameColumnsContainerEl = document.querySelector("#game-columns-container");
 
 
@@ -62,7 +62,7 @@ function gameRequest(gameName) {
             gameTitleStar4.setAttribute("class", "fas fa-star");
             gameTitleStar5.setAttribute("class", "fas fa-star");
             //Append Child
-            GameColumnsContainerEl.appendChild(gameColumnEl);
+            //GameColumnsContainerEl.appendChild(gameColumnEl);
             gameColumnEl.appendChild(gameColumnsEl);
             gameColumnsEl.appendChild(columnImageEl);
             columnImageEl.appendChild(gameImgContainerEl);
@@ -114,7 +114,7 @@ function gameRequest(gameName) {
             var animeContainer = document.createElement("div");
             animeContainer.setAttribute("id", "anime-container");
             animeContainer.classList = "columns is-vcentered anime-class has-background-grey-lighter";
-            resultsContainer.appendChild(animeContainer);
+            resultsContainerEL.appendChild(animeContainer);
 
             // div to contain title, rating and description
             var animeInfoEl = document.createElement("div");
