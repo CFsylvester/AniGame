@@ -5,6 +5,13 @@ var contentEl = document.querySelector("#main-content");
 var resultsContainerEL = document.querySelector("#results-container");
 var GameColumnsContainerEl = document.querySelector("#game-columns-container");
 
+// anime result containers
+var animeContainer = document.createElement("div");
+var animeInfoEl = document.createElement("div");
+var animeVidContainer = document.createElement("div");
+var animeRatingEl = document.createElement("span");
+var animeVid = document.createElement("iframe");
+var animeDescription = document.createElement("p");
 
 function gameRequest(gameName) {
     var gameApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + gameName + "&format=json";
@@ -15,7 +22,7 @@ function gameRequest(gameName) {
         })
         .then(function (response) {
             console.log(response);
-            
+
             //Create Element
             var gameColumnEl = document.createElement("div");
             var gameColumnsEl = document.createElement("div");
@@ -27,8 +34,8 @@ function gameRequest(gameName) {
             var columnDescriptionEl = document.createElement("div");
             var gameTitleContainerEl = document.createElement("div");
             var gameTitleEl = document.createElement("h1");
-            var gameTitleText = document.createTextNode(response.results[0].name)
-            
+            var gameTitleText = document.createTextNode(response.results[0].name);
+
             var gameStarsEl = document.createElement("div");
             var gameTitleStarSpan = document.createElement("span");
             var gameTitleStar1 = document.createElement("i");
@@ -87,9 +94,9 @@ function gameRequest(gameName) {
             gameSummaryEl.appendChild(gameSummary);
             gameSummary.appendChild(gameSummaryText);
 
-            
+
             // SHOULD WE MOVE THE KITSU API FETCH INTO A SEPERATE FUNCTION AND CALL?
-            
+
             return fetch("https://kitsu.io/api/edge/anime?filter[text]=" + gameName);
         })
         .then(function (animeResponse) {
@@ -115,13 +122,11 @@ function gameRequest(gameName) {
             // Kitsu API results related to gameName valuE
 
             // create a container for all the kitsu api results
-            var animeContainer = document.createElement("div");
             animeContainer.setAttribute("id", "anime-container");
             animeContainer.classList = "column anime-class is-three-fifths is-offset-one-fifth has-text-centered is-family-monospace has-background-grey-lighter has-text-black-bis";
             resultsContainerEL.appendChild(animeContainer);
 
             // div to contain title, rating and //description
-            var animeInfoEl = document.createElement("div");
             animeInfoEl.setAttribute("id", "anime-info");
             animeInfoEl.classList = "container has-text-centered is-size-5";
             animeInfoEl.innerHTML = "Anime found for " + gameName + ":";
@@ -199,18 +204,15 @@ function gameRequest(gameName) {
             };
 
             // display video of the anime
-            var animeVidContainer = document.createElement("div");
             animeVidContainer.classList = "container is-centered";
             animeContainer.appendChild(animeVidContainer);
 
-            var animeVid = document.createElement("iframe");
             animeVid.setAttribute("id", "anime-video");
             animeVid.setAttribute("src", "https://www.youtube.com/embed/" + animeResponse.data[0].attributes.youtubeVideoId + "?controls=1");
             animeVid.setAttribute("alt", "Trailer for " + gameName);
             animeVidContainer.appendChild(animeVid);
 
             // display description
-            var animeDescription = document.createElement("p");
             animeDescription.setAttribute("id", "anime-description");
             animeDescription.classList = "container has-text-left is-family-monospace is-size-6 has-text-black-bis";
             animeDescription.innerHTML = animeResponse.data[0].attributes.description;
@@ -223,10 +225,14 @@ function gameRequest(gameName) {
 
 var searchGame = function (event) {
     event.preventDefault();
+
+    // remove previous anime results
+    removeAnime();
+
     var searchValue = searchBar.value.trim();
     // clicking search button submits value and calls gameRequest function
     console.log(searchValue);
-
+    
     if (searchValue) {
         gameRequest(searchValue);
     } else {
@@ -235,6 +241,12 @@ var searchGame = function (event) {
     }
     // clear search bar after submitting
     searchBar.value = "";
+};
+
+function removeAnime() {
+    animeContainer.remove()
+    animeInfoEl.remove();
+    animeVidContainer.remove();
 };
 
 searchForm.addEventListener("submit", searchGame);
