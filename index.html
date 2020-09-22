@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css">
     <title>Document</title>
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
@@ -15,7 +15,7 @@
     <main id="main-content">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-end">
-              <!-- navbar items, navbar burger... -->
+                <!-- navbar items, navbar burger... -->
                 <form id="search-form" class="field is-grouped">
                     <input id="search-bar" class="input is-rounded" type="text" placeholder="Game Title">
                     <button id="search-button" form="search-form" class="button is-black" type="submit"
@@ -24,12 +24,31 @@
                     </button>
                 </form>
             </div>
-          </nav>
+        </nav>
+
+        <!-- Hero banner -->
+        <section class="hero is-dark is-bold is-small project-title">
+            <div class="columns hero-body">
+                <div class="column is-one-fifth has-text-centered">
+                    <i class="is-white fas fa-gamepad fa-5x"></i>
+                </div>
+                <div class="column container has-text-left is-family-monospace">
+                    <h1 class="title">
+                        Project Title Here
+                    </h1>
+                    <br>
+                    <h2 class="subtitle has-text-left">
+                        Search for your favorite video games to find related Anime!
+                    </h2>
+                </div>
+            </div>
+        </section>
+
         <!--About container-->
         <div id="h1text" class="container has-text-centered">
             <h1 class="is-family-monospace is-size-5 has-text-light">About This Project</h1>
         </div>
-        
+
         <!--Buttons Container
         <div>
             <section class="section">
@@ -76,11 +95,12 @@
                 </div>
             </section>
         </div> -->
-        
+
         <!--Elements Container-->
         <seciton class="section">
             <div class="container">
-                <div id="game-columns-container" class="column is-mobile has-background-danger mt-4">Game Goes Here</div>
+                <div id="game-columns-container" class="column is-mobile has-background-danger mt-4">Game Goes Here
+                </div>
                 <div id="results-container" class="column is-mobile has-background-danger mt-4">Anime Goes Here</div>
             </div>
         </seciton>
@@ -89,23 +109,21 @@
         <div id="anime-alert-bg" class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head has-background-grey-lighter">
-                <p id="anime-alert-header" class="modal-card-title has-text-black-bis">
+                <p class="modal-card-title has-text-black-bis">No Anime Found...
                 </p>
                 <button id="anime-alert-btn" class="delete" aria-label="close"></button>
             </header>
-            <i id="anime-alert-icon" class='fas fa-sad-cry fa-5x has-text-black-bis has-background-grey-lighter'></i>
-            <section id="anime-alert-text"
-                class="modal-card-body has-text-black-bis has-background-grey-lighter">
+            <i class='fas fa-sad-cry fa-5x has-text-black-bis has-background-grey-lighter'></i>
+            <section id="anime-alert-text" class="modal-card-body has-text-black-bis has-background-grey-lighter">
                 Modal alert here from scipt file
             </section>
             <footer class="modal-card-foot has-background-grey-lighter"></footer>
         </div>
     </div>
-    <script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
         crossorigin="anonymous">
-    </script>
+        </script>
     <script src="./assets/js/script.js"></script>
 </body>
 
