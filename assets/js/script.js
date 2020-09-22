@@ -3,10 +3,7 @@ var searchForm = document.querySelector("#search-form");
 var searchBar = document.querySelector("#search-bar");
 var contentEl = document.querySelector("#main-content");
 var resultsContainerEL = document.querySelector("#results-container");
-var GameColumnsContainerEl = document.querySelector("#game-columns-container");
-
-// anime containervariables
-
+var gameColumnsContainerEl = document.querySelector("#game-columns-container");
 
 function gameRequest(gameName) {
     var gameApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + gameName + "&format=json";
@@ -17,84 +14,98 @@ function gameRequest(gameName) {
         })
         .then(function (response) {
             console.log(response);
+             //Clear gameColumnsContainerEl
+            $(gameColumnsContainerEl).empty();
+            for (var i = 0; i < 6; i++) {
+                var gameColumnEl = document.createElement("div");
+                gameColumnEl.setAttribute("id", "game-column");
+                gameColumnEl.setAttribute("class", "column is-two-fifths  has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4");
+                gameColumnsContainerEl.appendChild(gameColumnEl);
+                //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
+                var baseSearchEl = document.createElement("div");
+                baseSearchEl.setAttribute("id", "base-search");
+                baseSearchEl.setAttribute("class", "columns is-vcentered");
+                gameColumnEl.appendChild(baseSearchEl);
+                //Create Columns 2 (baseClickEl)
+                var baseClickEl = document.createElement("div");
+                baseClickEl.setAttribute("id", "base-click");
+                baseClickEl.setAttribute("class", "columns is-mobile");
+                gameColumnEl.appendChild(baseClickEl);
+                //$(baseClickEl).hide();
+                //Columns 1 (baseSearchEl) Column 1 (columnImageEl) Stores Image Column 
+                var columnImageEl = document.createElement("div");
+                columnImageEl.setAttribute("id", "column-image");
+                columnImageEl.setAttribute("class", "column is-one-fith");
+                baseSearchEl.appendChild(columnImageEl);
+                //Image
+                var gameImg = document.createElement("img");
+                gameImg.setAttribute("id", "game-image");
+                gameImg.setAttribute("src", response.results[i].image.square_tiny);
+                gameImg.setAttribute("alt", "Image of " + gameName);
+                columnImageEl.appendChild(gameImg);
+                //Columns 1 (baseSearchEl) Column 2 (gameHeaderEl) Stores Title and Rating
+                var gameHeaderEl = document.createElement("div");
+                gameHeaderEl.setAttribute("id", "game-header");
+                gameHeaderEl.setAttribute("class", "column has-text-centered")
+                baseSearchEl.appendChild(gameHeaderEl);
+                //Title Text
+                var gameTitleEl = document.createElement("h1");
+                gameTitleEl.setAttribute("class", "title");
+                gameHeaderEl.appendChild(gameTitleEl);
+                var gameTitleText = document.createTextNode(response.results[i].name)
+                gameTitleEl.appendChild(gameTitleText);
+                //Create Columns 2 (baseClickEl) Column 1 For Description (columnDescriptionEl)
+                var columnDescriptionEl = document.createElement("div");
+                columnDescriptionEl.setAttribute("id", "column-description");
+                columnDescriptionEl.setAttribute("class", "column");
+                baseClickEl.appendChild(columnDescriptionEl);
+                //Game Stars Element
+                var gameStarsEl = document.createElement("div");
+                gameStarsEl.setAttribute("id", "game-stars");
+                gameStarsEl.setAttribute("class", "container has-text-centered");
+                columnDescriptionEl.appendChild(gameStarsEl);
+                //Game Stars
+                var gameTitleStarSpan = document.createElement("h3");
+                gameTitleStarSpan.setAttribute("class", "title has-text-centered is-size-3");
+                gameStarsEl.appendChild(gameTitleStarSpan);
+                var gameTitleStar1 = document.createElement("i");
+                var gameTitleStar2 = document.createElement("i");
+                var gameTitleStar3 = document.createElement("i");
+                var gameTitleStar4 = document.createElement("i");
+                var gameTitleStar5 = document.createElement("i");
+                gameTitleStar1.setAttribute("class", "fas fa-star");
+                gameTitleStar2.setAttribute("class", "fas fa-star");
+                gameTitleStar3.setAttribute("class", "fas fa-star");
+                gameTitleStar4.setAttribute("class", "fas fa-star");
+                gameTitleStar5.setAttribute("class", "fas fa-star");
+                gameTitleStarSpan.appendChild(gameTitleStar1);
+                gameTitleStarSpan.appendChild(gameTitleStar2);
+                gameTitleStarSpan.appendChild(gameTitleStar3);
+                gameTitleStarSpan.appendChild(gameTitleStar4);
+                gameTitleStarSpan.appendChild(gameTitleStar5);
+                //Summary Text
+                var gameSummary = document.createElement("p");
+                var gameSummaryText = document.createTextNode(response.results[i].description);
+                gameSummary.appendChild(gameSummaryText);
+                columnDescriptionEl.appendChild(gameSummary);
 
-            //Create Element
-            var gameColumnEl = document.createElement("div");
-            var gameColumnsEl = document.createElement("div");
-            var columnImageEl = document.createElement("div");
+                /*If Columns 1 (baseSearchEl) Clicked
+                $("#base-search").click(function() {
+                    
+                    //$(columnDescriptionEl).hide();
+                    $(baseClickEl).fadeToggle("slow");
+                
+                });
+                */
+            }
 
-            var gameImgContainerEl = document.createElement("div");
-            var gameImg = document.createElement("img");
-
-            var columnDescriptionEl = document.createElement("div");
-            var gameTitleContainerEl = document.createElement("div");
-            var gameTitleEl = document.createElement("h1");
-            var gameTitleText = document.createTextNode(response.results[0].name);
-
-            var gameStarsEl = document.createElement("div");
-            var gameTitleStarSpan = document.createElement("span");
-            var gameTitleStar1 = document.createElement("i");
-            var gameTitleStar2 = document.createElement("i");
-            var gameTitleStar3 = document.createElement("i");
-            var gameTitleStar4 = document.createElement("i");
-            var gameTitleStar5 = document.createElement("i");
-
-            var gameSummaryEl = document.createElement("div");
-            var gameSummary = document.createElement("p");
-            var gameSummaryText = document.createTextNode(response.results[0].description);
-            //Set Attribute
-            gameColumnEl.setAttribute("id", "game-column");
-            gameColumnEl.setAttribute("class", "column is-three-fifths is-offset-one-fifth has-background-grey-lighter is-family-monospace has-text-black-bis");
-            gameColumnsEl.setAttribute("id", "game-column");
-            gameColumnsEl.setAttribute("class", "columns is-mobile");
-            columnImageEl.setAttribute("id", "column-image");
-            columnImageEl.setAttribute("class", "column is-one-third is-centered");
-            gameImgContainerEl.setAttribute("id", "game-img");
-            gameImgContainerEl.setAttribute("class", "container has-text-centered");
-            gameImg.setAttribute("id", "game-image");
-            gameImg.setAttribute("src", response.results[0].image.square_tiny);
-            gameImg.setAttribute("alt", "Image of " + gameName);
-            columnDescriptionEl.setAttribute("id", "column-description");
-            columnDescriptionEl.setAttribute("class", "column");
-            gameTitleContainerEl.setAttribute("id", "game-title");
-            gameTitleContainerEl.setAttribute("class", "container has-text-centere");
-            gameTitleEl.setAttribute("class", "title");
-            gameStarsEl.setAttribute("id", "game-stars");
-            gameStarsEl.setAttribute("class", "container has-text-centered");
-            gameTitleStarSpan.setAttribute("class", "icon my-2 is-large");
-            gameTitleStar1.setAttribute("class", "fas fa-star");
-            gameTitleStar2.setAttribute("class", "fas fa-star");
-            gameTitleStar3.setAttribute("class", "fas fa-star");
-            gameTitleStar4.setAttribute("class", "fas fa-star");
-            gameTitleStar5.setAttribute("class", "fas fa-star");
-            //Append Child
-            GameColumnsContainerEl.appendChild(gameColumnEl);
-            gameColumnEl.appendChild(gameColumnsEl);
-            gameColumnsEl.appendChild(columnImageEl);
-            columnImageEl.appendChild(gameImgContainerEl);
-            gameImgContainerEl.appendChild(gameImg);
-            gameColumnsEl.appendChild(columnDescriptionEl);
-            columnDescriptionEl.appendChild(gameTitleContainerEl);
-            gameTitleContainerEl.appendChild(gameTitleEl);
-            gameTitleEl.appendChild(gameTitleText);
-            columnDescriptionEl.appendChild(gameStarsEl);
-            gameStarsEl.appendChild(gameTitleStarSpan);
-            gameTitleStarSpan.appendChild(gameTitleStar1);
-            gameTitleStarSpan.appendChild(gameTitleStar2);
-            gameTitleStarSpan.appendChild(gameTitleStar3);
-            gameTitleStarSpan.appendChild(gameTitleStar4);
-            gameTitleStarSpan.appendChild(gameTitleStar5);
-            gameStarsEl.appendChild(gameTitleStarSpan);
-            columnDescriptionEl.appendChild(gameSummaryEl);
-            gameSummaryEl.appendChild(gameSummary);
-            gameSummary.appendChild(gameSummaryText);
-
-            // run gameName through animeRequest function
+            //Anime Fetch Call
             animeRequest(gameName);
         })
         .catch(function (error) {
             console.log(error);
         });
+
 };
 
 function animeRequest(gameName) {
