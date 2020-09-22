@@ -5,6 +5,8 @@ var contentEl = document.querySelector("#main-content");
 var resultsContainerEL = document.querySelector("#results-container");
 var GameColumnsContainerEl = document.querySelector("#game-columns-container");
 
+// anime containervariables
+
 
 function gameRequest(gameName) {
     var gameApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + gameName + "&format=json";
@@ -15,7 +17,7 @@ function gameRequest(gameName) {
         })
         .then(function (response) {
             console.log(response);
-            
+
             //Create Element
             var gameColumnEl = document.createElement("div");
             var gameColumnsEl = document.createElement("div");
@@ -27,8 +29,8 @@ function gameRequest(gameName) {
             var columnDescriptionEl = document.createElement("div");
             var gameTitleContainerEl = document.createElement("div");
             var gameTitleEl = document.createElement("h1");
-            var gameTitleText = document.createTextNode(response.results[0].name)
-            
+            var gameTitleText = document.createTextNode(response.results[0].name);
+
             var gameStarsEl = document.createElement("div");
             var gameTitleStarSpan = document.createElement("span");
             var gameTitleStar1 = document.createElement("i");
@@ -87,16 +89,24 @@ function gameRequest(gameName) {
             gameSummaryEl.appendChild(gameSummary);
             gameSummary.appendChild(gameSummaryText);
 
-            
-            // SHOULD WE MOVE THE KITSU API FETCH INTO A SEPERATE FUNCTION AND CALL?
-            
-            return fetch("https://kitsu.io/api/edge/anime?filter[text]=" + gameName);
+            // run gameName through animeRequest function
+            animeRequest(gameName);
         })
+        .catch(function (error) {
+            console.log(error);
+        });
+};
+
+function animeRequest(gameName) {
+
+    var animeApi = "https://kitsu.io/api/edge/anime?";
+    fetch(animeApi + "filter[text]=" + gameName)
         .then(function (animeResponse) {
             return animeResponse.json();
         })
         .then(function (animeResponse) {
             console.log(animeResponse);
+            $("#results-container").empty();
 
             // convert game title and anime title to uppercase to check for correct titles
             var animeName = animeResponse.data[0].attributes.canonicalTitle;
@@ -104,125 +114,144 @@ function gameRequest(gameName) {
             var gameNameUp = gameName.toUpperCase();
 
             if (animeNameUp.includes(gameNameUp) === false) {
-                console.log("testing error");
+                $("#anime-alert-header").html("No Anime Found...");
+                $("#anime-alert-icon").removeClass("fa-laugh-beam");
+                $("#anime-alert-icon").addClass("fa-sad-cry");
                 $("#anime-alert").addClass("is-active");
-                $("#anime-alert-text").html("<p>There weren't any anime found for " + gameName + ".</p>");
+                $("#anime-alert-text").html("<p>There weren't any Anime found for " + gameName + ".</p>");
                 $("#anime-alert-btn").on("click", function () {
                     ($("#anime-alert").removeClass("is-active"));
                 });
                 return;
             }
-            // Kitsu API results related to gameName valuE
 
-            // create a container for all the kitsu api results
-            var animeContainer = document.createElement("div");
-            animeContainer.setAttribute("id", "anime-container");
-            animeContainer.classList = "column anime-class is-three-fifths is-offset-one-fifth has-text-centered is-family-monospace has-background-grey-lighter has-text-black-bis";
-            resultsContainerEL.appendChild(animeContainer);
+            for (var i = 0; i < 5; i++) {
+                var animeName = animeResponse.data[i].attributes.canonicalTitle;
+                var animeNameUp = animeName.toUpperCase();
+                var gameNameUp = gameName.toUpperCase();
 
-            // div to contain title, rating and //description
-            var animeInfoEl = document.createElement("div");
-            animeInfoEl.setAttribute("id", "anime-info");
-            animeInfoEl.classList = "container has-text-centered is-size-5";
-            animeInfoEl.innerHTML = "Anime found for " + gameName + ":";
-            animeContainer.appendChild(animeInfoEl);
+                if (animeNameUp.includes(gameNameUp) === false) {
+                    $("#anime-alert-header").html("Some Anime Were Found!");
+                    $("#anime-alert-icon").removeClass("fa-sad-cry");
+                    $("#anime-alert-icon").addClass("fa-laugh-beam");
+                    $("#anime-alert").addClass("is-active");
+                    $("#anime-alert-text").html("<p>There were " + i + " Anime found for " + gameName + "! Not bad!</p>");
+                    $("#anime-alert-btn").on("click", function () {
+                        ($("#anime-alert").removeClass("is-active"));
+                    });
+                    return;
+                }
 
-            // display title 
-            var animeTitle = document.createElement("h3");
-            animeTitle.setAttribute("id", "anime-title");
-            animeTitle.classList = "title has-text-centered is-size-3";
-            animeTitle.innerHTML = animeResponse.data[0].attributes.canonicalTitle;
-            animeInfoEl.appendChild(animeTitle);
+                // Kitsu API results related to gameName value
+                // create a container for all the kitsu api results
+                var animeContainer = document.createElement("div");
+                animeContainer.setAttribute("id", "anime-container");
+                animeContainer.classList = "column anime-class is-three-fifths is-offset-one-fifth has-text-centered is-family-monospace has-background-grey-lighter has-text-black-bis";
+                resultsContainerEL.appendChild(animeContainer);
 
-            // display rating/stars
-            var animeRatingEl = document.createElement("span");
-            animeRatingEl.setAttribute("id", "anime-rating");
-            var animeStar1 = document.createElement("i");
-            animeStar1.classList = "far fa-star";
-            var animeStar2 = document.createElement("i");
-            animeStar2.classList = "far fa-star";
-            var animeStar3 = document.createElement("i");
-            animeStar3.classList = "far fa-star";
-            var animeStar4 = document.createElement("i");
-            animeStar4.classList = "far fa-star";
-            var animeStar5 = document.createElement("i");
-            animeStar5.classList = "far fa-star";
+                // div to contain title, rating and //description
+                var animeInfoEl = document.createElement("div");
+                animeInfoEl.setAttribute("id", "anime-info");
+                animeInfoEl.classList = "container has-text-centered is-size-5";
+                animeInfoEl.innerHTML = "Anime found for " + gameName + ":";
+                animeContainer.appendChild(animeInfoEl);
 
-            animeRatingEl.classList = "column container has-text-centered is-family-monospace is-size-4 has-text-black-bis";
-            animeTitle.appendChild(animeRatingEl);
-            animeRatingEl.appendChild(animeStar1);
-            animeRatingEl.appendChild(animeStar2);
-            animeRatingEl.appendChild(animeStar3);
-            animeRatingEl.appendChild(animeStar4);
-            animeRatingEl.appendChild(animeStar5);
+                // display title 
+                var animeTitle = document.createElement("h3");
+                animeTitle.setAttribute("id", "anime-title");
+                animeTitle.classList = "title has-text-centered is-size-3";
+                animeTitle.innerHTML = animeResponse.data[i].attributes.canonicalTitle;
+                animeInfoEl.appendChild(animeTitle);
 
-            // create an if else statement to highlight or fill star icons depending on value of animeRating
-            // SHOULD THIS GET MOVED INTO A SEPERATE FUNCTION?
-            var animeRating = animeResponse.data[0].attributes.averageRating;
-            console.log(animeRating);
+                // display rating/stars
+                var animeRatingEl = document.createElement("span");
+                animeRatingEl.setAttribute("id", "anime-rating");
+                var animeStar1 = document.createElement("i");
+                animeStar1.classList = "far fa-star";
+                var animeStar2 = document.createElement("i");
+                animeStar2.classList = "far fa-star";
+                var animeStar3 = document.createElement("i");
+                animeStar3.classList = "far fa-star";
+                var animeStar4 = document.createElement("i");
+                animeStar4.classList = "far fa-star";
+                var animeStar5 = document.createElement("i");
+                animeStar5.classList = "far fa-star";
 
-            if (animeRating < 30) {
-                animeStar1.classList.remove("far");
-                animeStar1.classList.add("fas");
-            } else if (animeRating > 30 && animeRating < 50) {
-                animeStar1.classList.remove("far");
-                animeStar1.classList.add("fas");
-                animeStar2.classList.remove("far");
-                animeStar2.classList.add("fas");
-            } else if (animeRating > 50 && animeRating < 70) {
-                animeStar1.classList.remove("far");
-                animeStar1.classList.add("fas");
-                animeStar2.classList.remove("far");
-                animeStar2.classList.add("fas");
-                animeStar3.classList.remove("far");
-                animeStar3.classList.add("fas");
-            } else if (animeRating > 70 && animeRating < 90) {
-                animeStar1.classList.remove("far");
-                animeStar1.classList.add("fas");
-                animeStar2.classList.remove("far");
-                animeStar2.classList.add("fas");
-                animeStar3.classList.remove("far");
-                animeStar3.classList.add("fas");
-                animeStar4.classList.remove("far");
-                animeStar4.classList.add("fas");
-            } else if (animeRating > 90 && animeRating <= 100) {
-                animeStar1.classList.remove("far");
-                animeStar1.classList.add("fas");
-                animeStar2.classList.remove("far");
-                animeStar2.classList.add("fas");
-                animeStar3.classList.remove("far");
-                animeStar3.classList.add("fas");
-                animeStar4.classList.remove("far");
-                animeStar4.classList.add("fas");
-                animeStar5.classList.remove("far");
-                animeStar5.classList.add("fas");
-            };
+                animeRatingEl.classList = "column container has-text-centered is-family-monospace is-size-4 has-text-black-bis";
+                animeTitle.appendChild(animeRatingEl);
+                animeRatingEl.appendChild(animeStar1);
+                animeRatingEl.appendChild(animeStar2);
+                animeRatingEl.appendChild(animeStar3);
+                animeRatingEl.appendChild(animeStar4);
+                animeRatingEl.appendChild(animeStar5);
 
-            // display video of the anime
-            var animeVidContainer = document.createElement("div");
-            animeVidContainer.classList = "container is-centered";
-            animeContainer.appendChild(animeVidContainer);
+                // create an if else statement to highlight or fill star icons depending on value of animeRating
+                // SHOULD THIS GET MOVED INTO A SEPERATE FUNCTION?
+                var animeRating = animeResponse.data[i].attributes.averageRating;
+                console.log(animeRating);
 
-            var animeVid = document.createElement("iframe");
-            animeVid.setAttribute("id", "anime-video");
-            animeVid.setAttribute("src", "https://www.youtube.com/embed/" + animeResponse.data[0].attributes.youtubeVideoId + "?controls=1");
-            animeVid.setAttribute("alt", "Trailer for " + gameName);
-            animeVidContainer.appendChild(animeVid);
+                if (animeRating < 30) {
+                    animeStar1.classList.remove("far");
+                    animeStar1.classList.add("fas");
+                } else if (animeRating > 30 && animeRating < 50) {
+                    animeStar1.classList.remove("far");
+                    animeStar1.classList.add("fas");
+                    animeStar2.classList.remove("far");
+                    animeStar2.classList.add("fas");
+                } else if (animeRating > 50 && animeRating < 70) {
+                    animeStar1.classList.remove("far");
+                    animeStar1.classList.add("fas");
+                    animeStar2.classList.remove("far");
+                    animeStar2.classList.add("fas");
+                    animeStar3.classList.remove("far");
+                    animeStar3.classList.add("fas");
+                } else if (animeRating > 70 && animeRating < 90) {
+                    animeStar1.classList.remove("far");
+                    animeStar1.classList.add("fas");
+                    animeStar2.classList.remove("far");
+                    animeStar2.classList.add("fas");
+                    animeStar3.classList.remove("far");
+                    animeStar3.classList.add("fas");
+                    animeStar4.classList.remove("far");
+                    animeStar4.classList.add("fas");
+                } else if (animeRating > 90 && animeRating <= 100) {
+                    animeStar1.classList.remove("far");
+                    animeStar1.classList.add("fas");
+                    animeStar2.classList.remove("far");
+                    animeStar2.classList.add("fas");
+                    animeStar3.classList.remove("far");
+                    animeStar3.classList.add("fas");
+                    animeStar4.classList.remove("far");
+                    animeStar4.classList.add("fas");
+                    animeStar5.classList.remove("far");
+                    animeStar5.classList.add("fas");
+                };
 
-            // display description
-            var animeDescription = document.createElement("p");
-            animeDescription.setAttribute("id", "anime-description");
-            animeDescription.classList = "container has-text-left is-family-monospace is-size-6 has-text-black-bis";
-            animeDescription.innerHTML = animeResponse.data[0].attributes.description;
-            animeVidContainer.appendChild(animeDescription);
-        })
-        .catch(function (error) {
-            console.log(error);
+                // display video of the anime
+                var animeVidContainer = document.createElement("div");
+                animeVidContainer.classList = "container is-centered";
+                animeContainer.appendChild(animeVidContainer);
+
+                var animeVid = document.createElement("iframe");
+                animeVid.setAttribute("id", "anime-video");
+                animeVid.setAttribute("src", "https://www.youtube.com/embed/" + animeResponse.data[i].attributes.youtubeVideoId + "?controls=1");
+                animeVid.setAttribute("allowfullscreen", "");
+                animeVid.setAttribute("alt", "Trailer for " + gameName);
+                animeVidContainer.appendChild(animeVid);
+
+                // display description
+                var animeDescription = document.createElement("p");
+                animeDescription.setAttribute("id", "anime-description");
+                animeDescription.classList = "container has-text-left is-family-monospace is-size-6 has-text-black-bis";
+                animeDescription.innerHTML = animeResponse.data[i].attributes.description;
+                animeVidContainer.appendChild(animeDescription);
+            }
         });
 };
 
 var searchGame = function (event) {
     event.preventDefault();
+
     var searchValue = searchBar.value.trim();
     // clicking search button submits value and calls gameRequest function
     console.log(searchValue);
