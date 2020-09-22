@@ -1,8 +1,12 @@
 body {
-    background-color: rgb(39, 39, 39);
+  background-color: rgb(39, 39, 39);
 }
 #h1text {
-    padding-top: 10rem;
+  padding-top: 10rem;
+}
+div {
+  outline-color: black;
+  outline-style: solid;
 }
 
 .project-title {
