@@ -14,11 +14,10 @@ function gameRequest(gameName) {
         })
         .then(function (response) {
             console.log(response);
-
-            //Clear gameColumnsContainerEl
+             //Clear gameColumnsContainerEl
             $(gameColumnsContainerEl).empty();
-            for (var i = 0; i < 5; i++) {
-                //gameColumnsContainerEl
+            for (var i = 0; i < 6; i++) {
+                
                 var gameColumnEl = document.createElement("div");
                 gameColumnEl.setAttribute("id", "game-column");
                 gameColumnEl.setAttribute("class", "column is-two-fifths  has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4");
