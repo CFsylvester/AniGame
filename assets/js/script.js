@@ -6,7 +6,7 @@ var resultsContainerEL = document.querySelector("#results-container");
 var gameColumnsContainerEl = document.querySelector("#game-columns-container");
 
 function gameRequest(gameName) {
-    var gameApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + gameName + "&format=json";
+    var gameApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + gameName + "&format=json&limit=6";
     // fetch the response
     fetch(gameApi)
         .then(function (response) {
@@ -16,10 +16,11 @@ function gameRequest(gameName) {
             console.log(response);
              //Clear gameColumnsContainerEl
             $(gameColumnsContainerEl).empty();
-            for (var i = 0; i < 6; i++) {
+            for (var i = 0; i < response.results.length; i++) {
                 var gameColumnEl = document.createElement("div");
                 gameColumnEl.setAttribute("id", "game-column");
-                gameColumnEl.setAttribute("class", "column is-two-fifths  has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4");
+                gameColumnEl.setAttribute('data-description', response.results[i].description)
+                gameColumnEl.setAttribute("class", "column search-results is-two-fifths  has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
                 //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
                 var baseSearchEl = document.createElement("div");
@@ -63,7 +64,7 @@ function gameRequest(gameName) {
                 var gameStarsEl = document.createElement("div");
                 gameStarsEl.setAttribute("id", "game-stars");
                 gameStarsEl.setAttribute("class", "container has-text-centered");
-                columnDescriptionEl.appendChild(gameStarsEl);
+                //columnDescriptionEl.appendChild(gameStarsEl);
                 //Game Stars
                 var gameTitleStarSpan = document.createElement("h3");
                 gameTitleStarSpan.setAttribute("class", "title has-text-centered is-size-3");
@@ -85,18 +86,16 @@ function gameRequest(gameName) {
                 gameTitleStarSpan.appendChild(gameTitleStar5);
                 //Summary Text
                 var gameSummary = document.createElement("p");
-                var gameSummaryText = document.createTextNode(response.results[i].description);
-                gameSummary.appendChild(gameSummaryText);
                 columnDescriptionEl.appendChild(gameSummary);
 
-                /*If Columns 1 (baseSearchEl) Clicked
-                $("#base-search").click(function() {
-                    
-                    //$(columnDescriptionEl).hide();
-                    $(baseClickEl).fadeToggle("slow");
-                
+                $(".search-results").click(function() {
+                    var gameDescription = ($(this).attr('data-description'))
+                    console.log(gameDescription);
+                    var gameSummaryClick = ($(this).find("p"));
+                    console.log(gameSummaryClick);
+                    gameSummaryClick.text(gameDescription);
                 });
-                */
+                
             }
 
             //Anime Fetch Call
