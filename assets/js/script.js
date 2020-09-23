@@ -22,17 +22,20 @@ function gameRequest(gameName) {
                 gameColumnEl.setAttribute('data-description', response.results[i].description)
                 gameColumnEl.setAttribute("class", "column search-results is-two-fifths  has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
+
                 //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
                 var baseSearchEl = document.createElement("div");
                 baseSearchEl.setAttribute("id", "base-search");
                 baseSearchEl.setAttribute("class", "columns is-vcentered");
                 gameColumnEl.appendChild(baseSearchEl);
+
                 //Create Columns 2 (baseClickEl)
                 var baseClickEl = document.createElement("div");
                 baseClickEl.setAttribute("id", "base-click");
                 baseClickEl.setAttribute("class", "columns is-mobile");
                 gameColumnEl.appendChild(baseClickEl);
                 //$(baseClickEl).hide();
+
                 //Columns 1 (baseSearchEl) Column 1 (columnImageEl) Stores Image Column 
                 var columnImageEl = document.createElement("div");
                 columnImageEl.setAttribute("id", "column-image");
@@ -55,6 +58,7 @@ function gameRequest(gameName) {
                 gameHeaderEl.appendChild(gameTitleEl);
                 var gameTitleText = document.createTextNode(response.results[i].name)
                 gameTitleEl.appendChild(gameTitleText);
+
                 //Create Columns 2 (baseClickEl) Column 1 For Description (columnDescriptionEl)
                 var columnDescriptionEl = document.createElement("div");
                 columnDescriptionEl.setAttribute("id", "column-description");
