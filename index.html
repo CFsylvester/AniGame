@@ -7,19 +7,22 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&display=swap">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css">
-    <title>Document</title>
+    <title>AniGame</title>
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <script src="https://kit.fontawesome.com/5ed544d1c5.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <main id="main-content">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
+        <nav id="search-display" class="nav-style navbar has-background-dark is-vcentered" role="navigation"
+            aria-label="main navigation">
+            <div id="gametitle-buttons" class="buttons"></div>
             <div class="navbar-end">
                 <!-- navbar items, navbar burger... -->
                 <form id="search-form" class="field is-grouped">
-                    <input id="search-bar" class="input is-rounded" type="text" placeholder="Game Title">
-                    <button id="search-button" form="search-form" class="button is-black" type="submit"
+                    <input id="search-bar" class="searchbar-style input is-rounded" type="text"
+                        placeholder="Game Title">
+                    <button id="search-button" form="search-form" class="button is-black is-rounded" type="submit"
                         value="Submit input">
                         Search
                     </button>
@@ -53,7 +56,7 @@
                 </div>
                 <div class="container">
                     <div class="columns">
-                        
+
                         <div class="column">
                             <button id="playstation" class="button is-large is-link is-fullwidth playstation-button">
                                 <span class="icon">
@@ -61,7 +64,7 @@
                                 </span>
                             </button>
                         </div>
-                        
+
                         <div class="column">
                             <button id="xbox" class="button is-large is-success is-fullwidth xbox-button">
                                 <span class="icon">
@@ -72,6 +75,7 @@
                     </div>
 
                     <div class="columns">
+
                         <div class="column">
                             <button id="steam" class="button is-large is-dark is-fullwidth steam-button">
                                 <span class="icon">
@@ -79,7 +83,7 @@
                                 </span>
                             </button>
                         </div>
-                        
+
                         <div class="column">
                             <button id="nintendo" class="button is-large is-danger is-fullwidth nintendo-button">
                                 <span class="icon">
@@ -92,6 +96,7 @@
             </section>
         </div>
 
+        <!-- Modals -->
         <div id="anime-alert" class="modal is-clipped has-text-centered has-background-grey-lighter">
             <div id="anime-alert-bg" class="modal-background"></div>
             <div class="modal-card">
@@ -102,11 +107,26 @@
                 </header>
                 <i class='fas fa-sad-cry fa-5x has-text-black-bis has-background-grey-lighter'></i>
                 <section id="anime-alert-text" class="modal-card-body has-text-black-bis has-background-grey-lighter">
-                    Modal alert here from scipt file
                 </section>
                 <footer class="modal-card-foot has-background-grey-lighter"></footer>
             </div>
         </div>
+        <div id="empty-search" class="modal is-clipped has-text-centered has-background-grey-lighter">
+            <div id="empty-search-bg" class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head has-background-grey-lighter">
+                    <p class="modal-card-title has-text-black-bis">You didn't search for anything...
+                    </p>
+                    <button id="empty-search-btn" class="delete" aria-label="close"></button>
+                </header>
+                <i class='far fa-frown-open fa-5x has-text-black-bis has-background-grey-lighter'></i>
+                <section id="empty-search-text" class="modal-card-body has-text-black-bis has-background-grey-lighter">
+                    <p>Try typing a video game title in the search bar.</p>
+                </section>
+                <footer class="modal-card-foot has-background-grey-lighter"></footer>
+            </div>
+        </div>
+
         <!--Elements Container-->
         <seciton class="section">
             <div>
@@ -122,7 +142,7 @@
             </div>
         </seciton>
     </main>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
         crossorigin="anonymous">
