@@ -1,9 +1,16 @@
 var gamespotKey = "e1c898ffd3a1cccaf5ff6ef297f51a43f05238a3";
 var searchForm = document.querySelector("#search-form");
 var searchBar = document.querySelector("#search-bar");
+var heroEl = document.querySelector("#hero"); 
 var contentEl = document.querySelector("#main-content");
+var gameResultsEl = document.querySelector("#game-results");
+var animeResultsEl = document.querySelector("#anime-results"); 
 var resultsContainerEL = document.querySelector("#results-container");
 var gameColumnsContainerEl = document.querySelector("#game-columns-container");
+var xboxEl = document.querySelector("#xbox");
+var playstationEl = document.querySelector("#playstation");
+var nintendoEl = document.querySelector("#nintendo");
+var steamEl = document.querySelector("#steam");
 
 function gameRequest(gameName) {
     var gameApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + gameName + "&format=json&limit=6";
@@ -14,13 +21,14 @@ function gameRequest(gameName) {
         })
         .then(function (response) {
             console.log(response);
-             //Clear gameColumnsContainerEl
+            gameResultsEl.innerHTML = "Game(s) found for " + gameName + ":";
+            //Clear gameColumnsContainerEl
             $(gameColumnsContainerEl).empty();
             for (var i = 0; i < response.results.length; i++) {
                 var gameColumnEl = document.createElement("div");
                 gameColumnEl.setAttribute("id", "game-column");
                 gameColumnEl.setAttribute('data-description', response.results[i].description)
-                gameColumnEl.setAttribute("class", "column search-results is-two-fifths has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4");
+                gameColumnEl.setAttribute("class", "column search-results is-two-fifths is-family-monospace has-text-black-bis mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
 
                 //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
@@ -39,7 +47,7 @@ function gameRequest(gameName) {
                 //Columns 1 (baseSearchEl) Column 1 (columnImageEl) Stores Image Column 
                 var columnImageEl = document.createElement("div");
                 columnImageEl.setAttribute("id", "column-image");
-                columnImageEl.setAttribute("class", "column is-one-fith");
+                columnImageEl.setAttribute("class", "column is-one-fith is-narrow");
                 baseSearchEl.appendChild(columnImageEl);
                 //Image
                 var gameImg = document.createElement("img");
@@ -65,29 +73,29 @@ function gameRequest(gameName) {
                 columnDescriptionEl.setAttribute("class", "column");
                 baseClickEl.appendChild(columnDescriptionEl);
                 //Game Stars Element
-                var gameStarsEl = document.createElement("div");
-                gameStarsEl.setAttribute("id", "game-stars");
-                gameStarsEl.setAttribute("class", "container has-text-centered");
-                //columnDescriptionEl.appendChild(gameStarsEl);
-                //Game Stars
-                var gameTitleStarSpan = document.createElement("h3");
-                gameTitleStarSpan.setAttribute("class", "title has-text-centered is-size-3");
-                gameStarsEl.appendChild(gameTitleStarSpan);
-                var gameTitleStar1 = document.createElement("i");
-                var gameTitleStar2 = document.createElement("i");
-                var gameTitleStar3 = document.createElement("i");
-                var gameTitleStar4 = document.createElement("i");
-                var gameTitleStar5 = document.createElement("i");
-                gameTitleStar1.setAttribute("class", "fas fa-star");
-                gameTitleStar2.setAttribute("class", "fas fa-star");
-                gameTitleStar3.setAttribute("class", "fas fa-star");
-                gameTitleStar4.setAttribute("class", "fas fa-star");
-                gameTitleStar5.setAttribute("class", "fas fa-star");
-                gameTitleStarSpan.appendChild(gameTitleStar1);
-                gameTitleStarSpan.appendChild(gameTitleStar2);
-                gameTitleStarSpan.appendChild(gameTitleStar3);
-                gameTitleStarSpan.appendChild(gameTitleStar4);
-                gameTitleStarSpan.appendChild(gameTitleStar5);
+                // var gameStarsEl = document.createElement("div");
+                // gameStarsEl.setAttribute("id", "game-stars");
+                // gameStarsEl.setAttribute("class", "container has-text-centered");
+                // //columnDescriptionEl.appendChild(gameStarsEl);
+                // //Game Stars
+                // var gameTitleStarSpan = document.createElement("h3");
+                // gameTitleStarSpan.setAttribute("class", "title has-text-centered is-size-3");
+                // gameStarsEl.appendChild(gameTitleStarSpan);
+                // var gameTitleStar1 = document.createElement("i");
+                // var gameTitleStar2 = document.createElement("i");
+                // var gameTitleStar3 = document.createElement("i");
+                // var gameTitleStar4 = document.createElement("i");
+                // var gameTitleStar5 = document.createElement("i");
+                // gameTitleStar1.setAttribute("class", "fas fa-star");
+                // gameTitleStar2.setAttribute("class", "fas fa-star");
+                // gameTitleStar3.setAttribute("class", "fas fa-star");
+                // gameTitleStar4.setAttribute("class", "fas fa-star");
+                // gameTitleStar5.setAttribute("class", "fas fa-star");
+                // gameTitleStarSpan.appendChild(gameTitleStar1);
+                // gameTitleStarSpan.appendChild(gameTitleStar2);
+                // gameTitleStarSpan.appendChild(gameTitleStar3);
+                // gameTitleStarSpan.appendChild(gameTitleStar4);
+                // gameTitleStarSpan.appendChild(gameTitleStar5);
                 //Summary Text
                 var gameSummary = document.createElement("p");
                 columnDescriptionEl.appendChild(gameSummary);
@@ -98,6 +106,8 @@ function gameRequest(gameName) {
                     var gameSummaryClick = ($(this).find("p"));
                     console.log(gameSummaryClick);
                     gameSummaryClick.text(gameDescription);
+                    $(this).removeClass("is-two-fifths");
+                    $(this).addClass("is-four-fifths");
                 });
                 
             }
@@ -121,13 +131,15 @@ function animeRequest(gameName) {
         .then(function (animeResponse) {
             console.log(animeResponse);
             $("#results-container").empty();
-
+            animeResultsEl.innerHTML = "Anime(s) found for " + gameName + ":";
             // convert game title and anime title to uppercase to check for correct titles
             var animeName = animeResponse.data[0].attributes.canonicalTitle;
             var animeNameUp = animeName.toUpperCase();
             var gameNameUp = gameName.toUpperCase();
 
             if (animeNameUp.includes(gameNameUp) === false) {
+                animeResultsEl.innerHTML = "No anime found for " + gameName + ".";
+
                 $("#anime-alert-header").html("No Anime Found...");
                 $("#anime-alert-icon").removeClass("fa-laugh-beam");
                 $("#anime-alert-icon").addClass("fa-sad-cry");
@@ -162,13 +174,13 @@ function animeRequest(gameName) {
                 animeContainer.setAttribute("id", "anime-container");
                 animeContainer.setAttribute("data-description", animeResponse.data[i].attributes.description);
                 animeContainer.setAttribute("data-rating", animeResponse.data[i].attributes.averageRating);
-                animeContainer.classList = "column anime-class search-results-anime is-two-fifths has-text-centered has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4";
+                animeContainer.classList = "column anime-class search-results-anime is-two-fifths has-text-centered is-family-monospace has-text-black-bis mx-3 my-4";
                 resultsContainerEL.appendChild(animeContainer);
                 // div to contain title, rating, and description
                 var animeInfoEl = document.createElement("div");
                 animeInfoEl.setAttribute("id", "anime-info");
                 animeInfoEl.classList = "container has-text-centered is-size-5";
-                animeInfoEl.innerHTML = "Anime found for " + gameName + ":";
+                
                 animeContainer.appendChild(animeInfoEl);
                 // display/create title 
                 var animeTitle = document.createElement("h3");
@@ -179,7 +191,7 @@ function animeRequest(gameName) {
                 // create rating span 
                 var animeRatingEl = document.createElement("span");
                 animeRatingEl.setAttribute("id", "anime-rating");
-                animeRatingEl.classList = "container has-text-centered is-family-monospace is-size-4 has-text-black-bis";
+                animeRatingEl.classList = "container has-text-centered is-size-4 has-text-black-bis";
                 // display video of the anime
                 var animeVidContainer = document.createElement("div");
                 animeVidContainer.classList = "container is-centered";
@@ -195,12 +207,14 @@ function animeRequest(gameName) {
                 //display description
                 var animeDescriptionEl = document.createElement("p");
                 animeDescriptionEl.setAttribute("id", "anime-description");
-                animeDescriptionEl.classList = "container has-text-left is-family-monospace is-size-6 has-text-black-bis";
+                animeDescriptionEl.classList = "container has-text-left is-size-6 has-text-black-bis";
                 animeContainer.appendChild(animeDescriptionEl);
 
             }
 
             $(".search-results-anime").one("click", function () {
+                $(this).removeClass("is-two-fifths");
+                $(this).addClass("is-four-fifths");
                 console.log("Click Video");
                 var animeDescription = ($(this).attr("data-description"))
                 console.log(animeDescription);
@@ -208,6 +222,7 @@ function animeRequest(gameName) {
                 console.log(animeRating);
                 var animeContainerClick = ($(this).find("p"));
                 var animeFindSpan = ($(this).find("span"));
+                //create star elements
                 var animeStar1 = document.createElement("i");
                 animeStar1.classList = "far fa-star";
                 var animeStar2 = document.createElement("i");
@@ -218,13 +233,13 @@ function animeRequest(gameName) {
                 animeStar4.classList = "far fa-star";
                 var animeStar5 = document.createElement("i");
                 animeStar5.classList = "far fa-star";
-
+                //append star elements
                 $(animeFindSpan).append(animeStar1);
                 $(animeFindSpan).append(animeStar2);
                 $(animeFindSpan).append(animeStar3);
                 $(animeFindSpan).append(animeStar4);
                 $(animeFindSpan).append(animeStar5);
-                
+                //rating if else statement 
                 if (animeRating < 30) {
                     animeStar1.classList.remove("far");
                     animeStar1.classList.add("fas");
@@ -261,7 +276,7 @@ function animeRequest(gameName) {
                     animeStar5.classList.remove("far");
                     animeStar5.classList.add("fas");
                 };
-
+                //Add dynamic summary 
                 animeContainerClick.text(animeDescription);
             });
 
@@ -284,5 +299,41 @@ var searchGame = function (event) {
     // clear search bar after submitting
     searchBar.value = "";
 };
+
+$(xboxEl).click(function() {
+    console.log("Xbox Theme Choosen");
+    var element = document.body;
+    $(heroEl).removeClass();
+    $(heroEl).addClass("hero is-success is-bold is-small project-title");
+    element.classList.toggle("xbox-theme");
+});
+
+$(playstationEl).click(function() {
+    console.log("Playstation Theme Choosen");
+    var element = document.body;
+    $(heroEl).removeClass();
+    $(heroEl).addClass("hero is-info is-bold is-small project-title");
+    element.classList.toggle("playstation-theme");
+});
+
+$(nintendoEl).click(function() {
+    console.log("Nintendo Theme Choosen");
+    var element = document.body;
+    $(heroEl).removeClass();
+    $(heroEl).addClass("hero is-danger is-bold is-small project-title");
+    element.classList.toggle("nintendo-theme");
+});
+
+$(steamEl).click(function() {
+     
+    console.log("Steam Theme Choosen");
+    var element = document.body;
+    $(element)
+    $(heroEl).removeClass();
+    $(heroEl).addClass("hero is-dark is-bold is-small project-title");
+    //element.classList.toggle("steam-theme"); 
+});
+
+
 
 searchForm.addEventListener("submit", searchGame);
