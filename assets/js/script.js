@@ -29,7 +29,7 @@ function gameRequest(gameName) {
                 var gameColumnEl = document.createElement("div");
                 gameColumnEl.setAttribute("id", "game-column");
                 gameColumnEl.setAttribute('data-description', response.results[i].description)
-                gameColumnEl.setAttribute("class", "column search-results is-two-fifths is-family-monospace has-text-black-bis mx-3 my-4");
+                gameColumnEl.setAttribute("class", "column has-background-grey-light search-results is-two-fifths has-text-black-bis mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
 
                 //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
@@ -37,14 +37,12 @@ function gameRequest(gameName) {
                 baseSearchEl.setAttribute("id", "base-search");
                 baseSearchEl.setAttribute("class", "columns is-vcentered");
                 gameColumnEl.appendChild(baseSearchEl);
-
                 //Create Columns 2 (baseClickEl)
                 var baseClickEl = document.createElement("div");
                 baseClickEl.setAttribute("id", "base-click");
                 baseClickEl.setAttribute("class", "columns is-mobile");
                 gameColumnEl.appendChild(baseClickEl);
                 //$(baseClickEl).hide();
-
                 //Columns 1 (baseSearchEl) Column 1 (columnImageEl) Stores Image Column 
                 var columnImageEl = document.createElement("div");
                 columnImageEl.setAttribute("id", "column-image");
@@ -110,7 +108,7 @@ function gameRequest(gameName) {
                     $(this).removeClass("is-two-fifths");
                     $(this).addClass("is-four-fifths");
                 });
-
+                
             }
 
             //Anime Fetch Call
@@ -139,7 +137,7 @@ function animeRequest(gameName) {
             var gameNameUp = gameName.toUpperCase();
 
             if (animeNameUp.includes(gameNameUp) === false) {
-                animeResultsEl.innerHTML = "No anime found for " + gameName + ".";
+                animeResultsEl.innerHTML = " ";
 
                 $("#anime-alert-header").html("No Anime Found...");
                 $("#anime-alert-icon").removeClass("fa-laugh-beam");
@@ -167,7 +165,7 @@ function animeRequest(gameName) {
                 animeContainer.setAttribute("id", "anime-container");
                 animeContainer.setAttribute("data-description", animeResponse.data[i].attributes.description);
                 animeContainer.setAttribute("data-rating", animeResponse.data[i].attributes.averageRating);
-                animeContainer.classList = "column anime-class search-results-anime is-two-fifths has-text-centered mx-3 my-4";
+                animeContainer.classList = "column anime-class has-background-grey-light has-text-black-bis search-results-anime is-two-fifths has-text-centered mx-3 my-4";
                 resultsContainerEL.appendChild(animeContainer);
                 // div to contain title, rating, and description
                 var animeInfoEl = document.createElement("div");
@@ -202,7 +200,6 @@ function animeRequest(gameName) {
                 animeDescriptionEl.setAttribute("id", "anime-description");
                 animeDescriptionEl.classList = "container has-text-left is-size-6";
                 animeContainer.appendChild(animeDescriptionEl);
-
             }
 
             $(".search-results-anime").one("click", function () {
@@ -326,13 +323,11 @@ $(nintendoEl).click(function() {
 });
 
 $(steamEl).click(function() {
-     
     console.log("Steam Theme Choosen");
     var element = document.body;
-    $(element)
     $(heroEl).removeClass();
     $(heroEl).addClass("hero is-light is-bold is-small project-title");
-    //element.classList.toggle("steam-theme"); 
+    element.classList.toggle("steam-theme"); 
 });
 
 
