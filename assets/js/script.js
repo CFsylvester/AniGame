@@ -1,6 +1,7 @@
 var gamespotKey = "e1c898ffd3a1cccaf5ff6ef297f51a43f05238a3";
 var searchForm = document.querySelector("#search-form");
 var searchBar = document.querySelector("#search-bar");
+var searchDisplay = document.querySelector("#search-display");
 var contentEl = document.querySelector("#main-content");
 var resultsContainerEL = document.querySelector("#results-container");
 var gameColumnsContainerEl = document.querySelector("#game-columns-container");
@@ -14,13 +15,14 @@ function gameRequest(gameName) {
         })
         .then(function (response) {
             console.log(response);
-             //Clear gameColumnsContainerEl
+
+            //Clear gameColumnsContainerEl
             $(gameColumnsContainerEl).empty();
             for (var i = 0; i < response.results.length; i++) {
                 var gameColumnEl = document.createElement("div");
                 gameColumnEl.setAttribute("id", "game-column");
-                gameColumnEl.setAttribute('data-description', response.results[i].description)
-                gameColumnEl.setAttribute("class", "column search-results is-two-fifths  has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4");
+                gameColumnEl.setAttribute('data-description', response.results[i].description);
+                gameColumnEl.setAttribute("class", "column search-results is-two-fifths has-background-grey-lighter is-family-monospace has-text-black-bis mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
 
                 //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
@@ -50,13 +52,13 @@ function gameRequest(gameName) {
                 //Columns 1 (baseSearchEl) Column 2 (gameHeaderEl) Stores Title and Rating
                 var gameHeaderEl = document.createElement("div");
                 gameHeaderEl.setAttribute("id", "game-header");
-                gameHeaderEl.setAttribute("class", "column has-text-centered")
+                gameHeaderEl.setAttribute("class", "column has-text-centered");
                 baseSearchEl.appendChild(gameHeaderEl);
                 //Title Text
                 var gameTitleEl = document.createElement("h1");
                 gameTitleEl.setAttribute("class", "title");
                 gameHeaderEl.appendChild(gameTitleEl);
-                var gameTitleText = document.createTextNode(response.results[i].name)
+                var gameTitleText = document.createTextNode(response.results[i].name);
                 gameTitleEl.appendChild(gameTitleText);
 
                 //Create Columns 2 (baseClickEl) Column 1 For Description (columnDescriptionEl)
@@ -92,14 +94,14 @@ function gameRequest(gameName) {
                 var gameSummary = document.createElement("p");
                 columnDescriptionEl.appendChild(gameSummary);
 
-                $(".search-results").click(function() {
-                    var gameDescription = ($(this).attr('data-description'))
+                $(".search-results").click(function () {
+                    var gameDescription = ($(this).attr('data-description'));
                     console.log(gameDescription);
                     var gameSummaryClick = ($(this).find("p"));
                     console.log(gameSummaryClick);
                     gameSummaryClick.text(gameDescription);
                 });
-                
+
             }
 
             //Anime Fetch Call
@@ -128,9 +130,6 @@ function animeRequest(gameName) {
             var gameNameUp = gameName.toUpperCase();
 
             if (animeNameUp.includes(gameNameUp) === false) {
-                $("#anime-alert-header").html("No Anime Found...");
-                $("#anime-alert-icon").removeClass("fa-laugh-beam");
-                $("#anime-alert-icon").addClass("fa-sad-cry");
                 $("#anime-alert").addClass("is-active");
                 $("#anime-alert-text").html("<p>There weren't any Anime found for " + gameName + ".</p>");
                 $("#anime-alert-btn").on("click", function () {
@@ -145,14 +144,6 @@ function animeRequest(gameName) {
                 var gameNameUp = gameName.toUpperCase();
 
                 if (animeNameUp.includes(gameNameUp) === false) {
-                    $("#anime-alert-header").html("Some Anime Were Found!");
-                    $("#anime-alert-icon").removeClass("fa-sad-cry");
-                    $("#anime-alert-icon").addClass("fa-laugh-beam");
-                    $("#anime-alert").addClass("is-active");
-                    $("#anime-alert-text").html("<p>There were " + i + " Anime found for " + gameName + "! Not bad!</p>");
-                    $("#anime-alert-btn").on("click", function () {
-                        ($("#anime-alert").removeClass("is-active"));
-                    });
                     return;
                 }
 
@@ -200,7 +191,6 @@ function animeRequest(gameName) {
                 animeRatingEl.appendChild(animeStar5);
 
                 // create an if else statement to highlight or fill star icons depending on value of animeRating
-                // SHOULD THIS GET MOVED INTO A SEPERATE FUNCTION?
                 var animeRating = animeResponse.data[i].attributes.averageRating;
                 console.log(animeRating);
 
@@ -263,21 +253,72 @@ function animeRequest(gameName) {
         });
 };
 
-var searchGame = function (event) {
+// var searchGame = function (event) {
+function searchGame(event) {
     event.preventDefault();
 
-    var searchValue = searchBar.value.trim();
+    var searchValue = searchBar.value.trim().toUpperCase();
     // clicking search button submits value and calls gameRequest function
-    console.log(searchValue);
+    console.log("searchValue: " + searchValue);
 
     if (searchValue) {
         gameRequest(searchValue);
+        gameButtons(searchValue);
+        storeSearchedGames();
     } else {
-        //if search is empty, throw an alert. CHANGE TO A MODAL LATER
-        alert("Enter a video game title to search for!");
+        //if search is empty, alert with a modal
+        $("#empty-search").addClass("is-active");
+        $("#empty-search-btn").on("click", function () {
+            ($("#empty-search").removeClass("is-active"));
+        });
+        return;
     }
+
     // clear search bar after submitting
     searchBar.value = "";
 };
 
+function storeSearchedGames() {
+    var userSearch = searchBar.value.trim().toUpperCase();
+
+    // get history if any exists, if not is an array
+    var gameHistory = JSON.parse(localStorage.getItem("game-search")) || [];
+    // push searched game into the gameHistory array
+    gameHistory.push(userSearch);
+
+    // save search into localstorage
+    localStorage.setItem("game-search", JSON.stringify(gameHistory));
+};
+
+function loadSearchedGames() {
+    if (localStorage.getItem("game-search")) {
+        var previousGames = JSON.parse(localStorage.getItem("game-search"));
+        for (var i = 0; i < previousGames.length; i++) {
+            gameButtons(previousGames[i]);
+        }
+    };
+
+    for (i = 0; i < document.getElementsByClassName("game-button").length; i++) {
+        document.getElementsByClassName("game-button")[i].addEventListener('click', function () {
+            var buttonClicked = this.getAttribute("data-game");
+            gameRequest(buttonClicked);
+        });
+    }
+};
+
+function gameButtons(game) {
+    // create buttons for searched games
+    var searchedGame = document.createElement("button");
+    searchedGame.textContent = game;
+    searchedGame.classList = "button game-button is-rounded is-light";
+    searchedGame.setAttribute("data-game", game);
+    searchedGame.setAttribute("type", "submit");
+    searchedGame.setAttribute("id", "game-" + game);
+
+    // append button to gametitle-buttons div
+    $("#gametitle-buttons").append(searchedGame);
+};
+
 searchForm.addEventListener("submit", searchGame);
+
+loadSearchedGames();
