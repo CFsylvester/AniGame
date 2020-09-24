@@ -199,7 +199,7 @@ function animeRequest(gameName) {
                 animeContainer.setAttribute("id", "anime-container");
                 animeContainer.setAttribute("data-description", animeResponse.data[i].attributes.description);
                 animeContainer.setAttribute("data-rating", animeResponse.data[i].attributes.averageRating);
-                animeContainer.classList = "column anime-class search-results-anime is-two-fifths has-text-centered is-family-monospace has-text-black-bis mx-3 my-4";
+                animeContainer.classList = "column anime-class search-results-anime is-two-fifths has-text-centered mx-3 my-4";
                 resultsContainerEL.appendChild(animeContainer);
                 // div to contain title, rating, and description
                 var animeInfoEl = document.createElement("div");
@@ -216,7 +216,7 @@ function animeRequest(gameName) {
                 // create rating span 
                 var animeRatingEl = document.createElement("span");
                 animeRatingEl.setAttribute("id", "anime-rating");
-                animeRatingEl.classList = "container has-text-centered is-size-4 has-text-black-bis";
+                animeRatingEl.classList = "container has-text-centered is-size-4";
                 // display video of the anime
                 var animeVidContainer = document.createElement("div");
                 animeVidContainer.classList = "container is-centered";
@@ -232,7 +232,7 @@ function animeRequest(gameName) {
                 //display description
                 var animeDescriptionEl = document.createElement("p");
                 animeDescriptionEl.setAttribute("id", "anime-description");
-                animeDescriptionEl.classList = "container has-text-left is-size-6 has-text-black-bis";
+                animeDescriptionEl.classList = "container has-text-left is-size-6";
                 animeContainer.appendChild(animeDescriptionEl);
 
             }
@@ -363,7 +363,7 @@ $(steamEl).click(function() {
     var element = document.body;
     $(element)
     $(heroEl).removeClass();
-    $(heroEl).addClass("hero is-dark is-bold is-small project-title");
+    $(heroEl).addClass("hero is-light is-bold is-small project-title");
     //element.classList.toggle("steam-theme"); 
 });
 

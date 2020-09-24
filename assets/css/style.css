@@ -7,6 +7,7 @@
 }
 * {
     box-sizing: border-box;
+    
 }
 
 .nav-style {
@@ -19,6 +20,7 @@
 
 body {
     background-color: rgb(39, 39, 39);
+    
 }
 
 .search-results, .anime-class {
@@ -32,34 +34,41 @@ body {
 /* Base Theme AKA Light Mode*/
 h1 {
     font-family: 'Press Start 2P', cursive;
-    
+    color: var(--offWhite);
 }
 h2 {
     font-family: 'Share Tech Mono', monospace;
+    color: var(--offWhite);
 }
 #console-wars {
     font-family: 'VT323', monospace;
     font-weight: bolder;
     font-size: 3rem;
+    color: var(--offWhite);
 }
 .project-title {
     padding: 3rem;
 } 
 .search-results h1 {
     font-family: 'VT323', monospace;
+    color: var(--offWhite);
 }
 .search-results p {
     font-family: 'Share Tech Mono', monospace;
+    color: var(--offWhite);
 }
 .search-results-anime h3 {
     font-family: 'VT323', monospace;
+    color: var(--offWhite);
 }
 .search-results-anime p {
     font-family: 'Share Tech Mono', monospace;
+    color: var(--offWhite);
 }
 #game-results, #anime-results{
     font-size: 3rem;
     font-family: 'Share Tech Mono', monospace;
+    color: var(--offWhite);
     text-align: center;
 } 
 .off-white {
