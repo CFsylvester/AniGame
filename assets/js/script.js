@@ -1,11 +1,11 @@
 var gamespotKey = "e1c898ffd3a1cccaf5ff6ef297f51a43f05238a3";
 var searchForm = document.querySelector("#search-form");
 var searchBar = document.querySelector("#search-bar");
-var heroEl = document.querySelector("#hero"); 
+var heroEl = document.querySelector("#hero");
 var searchDisplay = document.querySelector("#search-display");
 var contentEl = document.querySelector("#main-content");
 var gameResultsEl = document.querySelector("#game-results");
-var animeResultsEl = document.querySelector("#anime-results"); 
+var animeResultsEl = document.querySelector("#anime-results");
 var resultsContainerEL = document.querySelector("#results-container");
 var gameColumnsContainerEl = document.querySelector("#game-columns-container");
 var xboxEl = document.querySelector("#xbox");
@@ -21,14 +21,14 @@ function gameRequest(gameName) {
             return response.json();
         })
         .then(function (response) {
-            console.log(response);
+            // console.log(response);
             gameResultsEl.innerHTML = "Game(s) found for " + gameName + ":";
             //Clear gameColumnsContainerEl
             $(gameColumnsContainerEl).empty();
             for (var i = 0; i < response.results.length; i++) {
                 var gameColumnEl = document.createElement("div");
                 gameColumnEl.setAttribute("id", "game-column");
-                gameColumnEl.setAttribute('data-description', response.results[i].description)
+                gameColumnEl.setAttribute('data-description', response.results[i].description);
                 gameColumnEl.setAttribute("class", "column has-background-grey-light search-results is-two-fifths has-text-black-bis mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
 
@@ -108,14 +108,14 @@ function gameRequest(gameName) {
                     $(this).removeClass("is-two-fifths");
                     $(this).addClass("is-four-fifths");
                 });
-                
+
             }
 
             //Anime Fetch Call
             animeRequest(gameName);
         })
         .catch(function (error) {
-            console.log(error);
+            // console.log(error);
         });
 
 };
@@ -128,7 +128,7 @@ function animeRequest(gameName) {
             return animeResponse.json();
         })
         .then(function (animeResponse) {
-            console.log(animeResponse);
+            // console.log(animeResponse);
             $("#results-container").empty();
             animeResultsEl.innerHTML = "Anime(s) found for " + gameName + ":";
             // convert game title and anime title to uppercase to check for correct titles
@@ -181,6 +181,7 @@ function animeRequest(gameName) {
                 animeRatingEl.setAttribute("id", "anime-rating");
                 animeRatingEl.classList = "container has-text-centered is-size-4";
                 var animeRating = animeResponse.data[i].attributes.averageRating; 
+
                 //create star elements
                 var animeStar1 = document.createElement("i");
                 animeStar1.classList = "far fa-star";
@@ -277,7 +278,7 @@ function searchGame(event) {
 
     var searchValue = searchBar.value.trim().toUpperCase();
     // clicking search button submits value and calls gameRequest function
-    console.log("searchValue: " + searchValue);
+    // console.log("searchValue: " + searchValue);
 
     if (searchValue) {
         gameRequest(searchValue);
@@ -296,36 +297,36 @@ function searchGame(event) {
     searchBar.value = "";
 };
 
-$(xboxEl).click(function() {
-    console.log("Xbox Theme Choosen");
+$(xboxEl).click(function () {
+    // console.log("Xbox Theme Choosen");
     var element = document.body;
     $(heroEl).removeClass();
     $(heroEl).addClass("hero is-success is-bold is-small project-title");
     element.classList.toggle("xbox-theme");
 });
 
-$(playstationEl).click(function() {
-    console.log("Playstation Theme Choosen");
+$(playstationEl).click(function () {
+    // console.log("Playstation Theme Choosen");
     var element = document.body;
     $(heroEl).removeClass();
     $(heroEl).addClass("hero is-info is-bold is-small project-title");
     element.classList.toggle("playstation-theme");
 });
 
-$(nintendoEl).click(function() {
-    console.log("Nintendo Theme Choosen");
+$(nintendoEl).click(function () {
+    // console.log("Nintendo Theme Choosen");
     var element = document.body;
     $(heroEl).removeClass();
     $(heroEl).addClass("hero is-danger is-bold is-small project-title");
     element.classList.toggle("nintendo-theme");
 });
 
-$(steamEl).click(function() {
-    console.log("Steam Theme Choosen");
+$(steamEl).click(function () {
+    // console.log("Steam Theme Choosen");
     var element = document.body;
     $(heroEl).removeClass();
     $(heroEl).addClass("hero is-light is-bold is-small project-title");
-    element.classList.toggle("steam-theme"); 
+    element.classList.toggle("steam-theme");
 });
 
 
@@ -369,6 +370,11 @@ function gameButtons(game) {
     // append button to gametitle-buttons div
     $("#gametitle-buttons").append(searchedGame);
 };
+
+$("#delete-btn").click(function () {
+    localStorage.removeItem("game-search");
+    $(".game-button").remove();
+});
 
 searchForm.addEventListener("submit", searchGame);
 
