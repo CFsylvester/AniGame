@@ -10,6 +10,7 @@
     
 }
 
+
 .nav-style {
     padding: 1rem 1rem 0 1rem;
 }
@@ -22,16 +23,11 @@ body {
     background-color: rgb(39, 39, 39);
     
 }
-
 .search-results, .anime-class {
     border-radius: 5px;
 }
 
-#h1text {
-    padding-top: 10rem;
-}
-
-/* Base Theme AKA Light Mode*/
+/* Base Theme AKA Dark Mode*/
 h1 {
     font-family: 'Press Start 2P', cursive;
     color: var(--offWhite);
@@ -39,6 +35,11 @@ h1 {
 h2 {
     font-family: 'Share Tech Mono', monospace;
     color: var(--offWhite);
+}
+h4 {
+    font-family: 'Press Start 2P', cursive;
+    color: rgb(39, 39, 39);
+    vertical-align: top;
 }
 #console-wars {
     font-family: 'VT323', monospace;
@@ -67,6 +68,18 @@ h2 {
     color: var(--offWhite);
     text-align: center;
 } 
+#footer {
+    background-color: rgb(207, 199, 198);
+}
+#footer h4 {
+    font-size: 2rem;
+}
+#githubIcon {
+    color: black;
+}
+#githubIcon:hover {
+    color: #0645AD;
+}
 /* Playstaion Theme */ 
 .playstation-button {
     transition: all 0.2s ease-in-out;
@@ -131,4 +144,3 @@ h2 {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--nintendoRed);
 } 
-

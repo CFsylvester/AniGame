@@ -108,9 +108,7 @@ function gameRequest(gameName) {
                     $(this).removeClass("is-two-fifths");
                     $(this).addClass("is-four-fifths");
                 });
-                
             }
-
             //Anime Fetch Call
             animeRequest(gameName);
         })
