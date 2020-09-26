@@ -98,13 +98,13 @@ function gameRequest(gameName) {
                 //Summary Text
                 var gameSummary = document.createElement("p");
                 columnDescriptionEl.appendChild(gameSummary);
+                $(gameSummary).text(response.results[i].description);
+                $(gameSummary).hide();
+
 
                 $(".search-results").click(function () {
-                    var gameDescription = ($(this).attr('data-description'));
-                    console.log(gameDescription);
                     var gameSummaryClick = ($(this).find("p"));
-                    console.log(gameSummaryClick);
-                    gameSummaryClick.text(gameDescription);
+                    $(gameSummaryClick).toggle(); 
                     $(this).removeClass("is-two-fifths");
                     $(this).addClass("is-four-fifths");
                 });
@@ -163,15 +163,12 @@ function animeRequest(gameName) {
                 // create a container for all the kitsu api results
                 var animeContainer = document.createElement("div");
                 animeContainer.setAttribute("id", "anime-container");
-                animeContainer.setAttribute("data-description", animeResponse.data[i].attributes.description);
-                animeContainer.setAttribute("data-rating", animeResponse.data[i].attributes.averageRating);
                 animeContainer.classList = "column anime-class has-background-grey-light has-text-black-bis search-results-anime is-two-fifths has-text-centered mx-3 my-4";
                 resultsContainerEL.appendChild(animeContainer);
                 // div to contain title, rating, and description
                 var animeInfoEl = document.createElement("div");
                 animeInfoEl.setAttribute("id", "anime-info");
                 animeInfoEl.classList = "container has-text-centered is-size-5";
-                
                 animeContainer.appendChild(animeInfoEl);
                 // display/create title 
                 var animeTitle = document.createElement("h3");
@@ -183,35 +180,7 @@ function animeRequest(gameName) {
                 var animeRatingEl = document.createElement("span");
                 animeRatingEl.setAttribute("id", "anime-rating");
                 animeRatingEl.classList = "container has-text-centered is-size-4";
-                // display video of the anime
-                var animeVidContainer = document.createElement("div");
-                animeVidContainer.classList = "container is-centered";
-                animeContainer.appendChild(animeVidContainer);
-                animeContainer.appendChild(animeRatingEl);
-                //create anime video
-                var animeVid = document.createElement("iframe");
-                animeVid.setAttribute("id", "anime-video");
-                animeVid.setAttribute("src", "https://www.youtube.com/embed/" + animeResponse.data[i].attributes.youtubeVideoId + "?controls=1");
-                animeVid.setAttribute("allowfullscreen", "");
-                animeVid.setAttribute("alt", "Trailer for " + gameName);
-                animeVidContainer.appendChild(animeVid);
-                //display description
-                var animeDescriptionEl = document.createElement("p");
-                animeDescriptionEl.setAttribute("id", "anime-description");
-                animeDescriptionEl.classList = "container has-text-left is-size-6";
-                animeContainer.appendChild(animeDescriptionEl);
-            }
-
-            $(".search-results-anime").one("click", function () {
-                $(this).removeClass("is-two-fifths");
-                $(this).addClass("is-four-fifths");
-                console.log("Click Video");
-                var animeDescription = ($(this).attr("data-description"))
-                console.log(animeDescription);
-                var animeRating = ($(this).attr("data-rating"))
-                console.log(animeRating);
-                var animeContainerClick = ($(this).find("p"));
-                var animeFindSpan = ($(this).find("span"));
+                var animeRating = animeResponse.data[i].attributes.averageRating; 
                 //create star elements
                 var animeStar1 = document.createElement("i");
                 animeStar1.classList = "far fa-star";
@@ -224,11 +193,11 @@ function animeRequest(gameName) {
                 var animeStar5 = document.createElement("i");
                 animeStar5.classList = "far fa-star";
                 //append star elements
-                $(animeFindSpan).append(animeStar1);
-                $(animeFindSpan).append(animeStar2);
-                $(animeFindSpan).append(animeStar3);
-                $(animeFindSpan).append(animeStar4);
-                $(animeFindSpan).append(animeStar5);
+                $(animeRatingEl).append(animeStar1);
+                $(animeRatingEl).append(animeStar2);
+                $(animeRatingEl).append(animeStar3);
+                $(animeRatingEl).append(animeStar4);
+                $(animeRatingEl).append(animeStar5);
                 //rating if else statement 
                 if (animeRating < 30) {
                     animeStar1.classList.remove("far");
@@ -266,8 +235,37 @@ function animeRequest(gameName) {
                     animeStar5.classList.remove("far");
                     animeStar5.classList.add("fas");
                 };
-                //Add dynamic summary 
-                animeContainerClick.text(animeDescription);
+                // display video of the anime
+                var animeVidContainer = document.createElement("div");
+                animeVidContainer.classList = "container is-centered";
+                animeContainer.appendChild(animeVidContainer);
+                animeContainer.appendChild(animeRatingEl);
+                //create anime video
+                var animeVid = document.createElement("iframe");
+                animeVid.setAttribute("id", "anime-video");
+                animeVid.setAttribute("src", "https://www.youtube.com/embed/" + animeResponse.data[i].attributes.youtubeVideoId + "?controls=1");
+                animeVid.setAttribute("allowfullscreen", "");
+                animeVid.setAttribute("alt", "Trailer for " + gameName);
+                animeVidContainer.appendChild(animeVid);
+                //display description
+                var animeDescriptionEl = document.createElement("p");
+                animeDescriptionEl.setAttribute("id", "anime-description");
+                animeDescriptionEl.classList = "container has-text-left is-size-6";
+                $(animeDescriptionEl).text(animeResponse.data[i].attributes.description);
+                animeContainer.appendChild(animeDescriptionEl);
+
+                //hidden elements 
+                $(animeRatingEl).hide(); 
+                $(animeDescriptionEl).hide(); 
+            }
+
+            $(".search-results-anime").click(function () {
+                $(this).removeClass("is-two-fifths");
+                $(this).addClass("is-four-fifths");
+                var animeContainerClick = ($(this).find("p"));
+                var animeFindSpan = ($(this).find("span"));
+                $(animeContainerClick).toggle(); 
+                $(animeFindSpan).toggle(); 
             });
 
         });
