@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&display=swap">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css">
     <title>AniGame</title>
@@ -16,7 +17,15 @@
     <main id="main-content">
         <nav id="search-display" class="nav-style navbar has-background-dark is-vcentered is-fixed-top" role="navigation"
             aria-label="main navigation">
-            <div id="gametitle-buttons" class="buttons"></div>
+
+            <div id="gametitle-buttons" class="buttons">
+                <button id="delete-btn" class="button is-danger is-rounded">
+                    <!-- <span>Delete</span> -->
+                    <span class="icon is-small">
+                        <i class="fas fa-skull"></i>
+                    </span>
+                </button>
+            </div>
             <div class="navbar-end">
                 <!-- navbar items, navbar burger... -->
                 <form id="search-form" class="field is-grouped">
@@ -27,6 +36,7 @@
                         Search
                     </button>
                 </form>
+
             </div>
         </nav>
         <!-- Hero banner -->
@@ -124,7 +134,8 @@
             <div>
                 <div>
                     <p id="game-results"></p>
-                    <div id="game-columns-container" class="columns is-multiline is-centered is-vcentered is-2 mt-4"></div>
+                    <div id="game-columns-container" class="columns is-multiline is-centered is-vcentered is-2 mt-4">
+                    </div>
                 </div>
                 <div>
                     <p id="anime-results"></p>
