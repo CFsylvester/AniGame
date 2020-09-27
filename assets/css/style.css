@@ -49,7 +49,11 @@ h4 {
 }
 .project-title {
     padding: 3rem;
-} 
+}
+.image {
+    height: 15rem;
+    width: 15rem;
+}
 .search-results h1 {
     font-family: 'VT323', monospace;
 }
