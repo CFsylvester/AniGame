@@ -150,7 +150,7 @@ function gameRequest(gameName) {
                             return ratingResponse.json();
                         })
                         .then(function (ratingResponse) {
-                            console.log(ratingResponse);
+                            console.log(ratingResponse + shortTitleName);
                             $(gameSummaryClick).text(ratingResponse.results[0].description); 
                             $(gameSummaryClick).toggle();
                         })
@@ -414,8 +414,9 @@ function loadSearchedGames() {
     for (i = 0; i < document.getElementsByClassName("game-button").length; i++) {
         document.getElementsByClassName("game-button")[i].addEventListener('click', function () {
             var buttonClicked = this.getAttribute("data-game");
+
             gameRequest(buttonClicked);
-        });
+        }, {passive: true});
     }
 };
 
@@ -437,6 +438,6 @@ $("#delete-btn").click(function () {
     $(".game-button").remove();
 });
 
-searchForm.addEventListener("submit", searchGame);
+searchForm.addEventListener("submit", searchGame, {passive:true});
 
 loadSearchedGames();
