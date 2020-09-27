@@ -24,9 +24,12 @@ git clone <paste url here>
 
 ## Technologies Used
 
-[Bulma Link](https://bulma.io/) 
-[GoogleFonts Link](https://fonts.google.com/)
-[FontAwesome Link](https://fontawesome.com/)
+[Bulma](https://bulma.io/)
+[Kitsu API](https://kitsu.docs.apiary.io/#introduction/questions?)
+[GameSpot API](https://www.gamespot.com/api/)
+[Rawg API](https://api.rawg.io/docs/)
+[GoogleFonts](https://fonts.google.com/)
+[FontAwesome](https://fontawesome.com/)
 
-##License 
-[MIT]()
+## License 
+[MIT](./LICENSE)

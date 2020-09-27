@@ -32,7 +32,7 @@ function gameRequest(gameName) {
                 gameColumnEl.setAttribute("id", "game-column");
                 //gameColumnEl.setAttribute('data-description', response.results[i].name);
                 gameColumnEl.setAttribute("data-name", response.results[i].name); 
-                gameColumnEl.setAttribute("class", "column has-background-grey-light search-results is-two-fifths has-text-black-bis mx-3 my-4");
+                gameColumnEl.setAttribute("class", "column has-background-grey-light search-results is-two-fifths mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
                 //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
                 var baseSearchEl = document.createElement("div");
@@ -139,28 +139,31 @@ function gameRequest(gameName) {
                 var gameSummary = document.createElement("p");
                 columnDescriptionEl.appendChild(gameSummary);
                 $(gameSummary).hide();
-                //Game Description Toggle + Fetch
-                $(".search-results").click(function () {
-                    var gameSummaryClick = ($(this).find("p"));
-                    $(gameSummaryClick).toggle();
-                    $(this).removeClass("is-two-fifths");
-                    $(this).addClass("is-four-fifths");
-                    var titleName = ($(this).attr("data-name"))
-                    var shortTitleName = titleName.split(",", 1);
-                    var gameDescriptionApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + shortTitleName + "&format=json&limit=6";
-                    fetch(gameDescriptionApi)
-                        .then(function (ratingResponse) {
-                            return ratingResponse.json();
-                        })
-                        .then(function (ratingResponse) {
-                            console.log(ratingResponse + shortTitleName);
-                            $(gameSummaryClick).text(ratingResponse.results[0].description); 
-                            $(gameSummaryClick).toggle();
-                        })
-                        .catch(function (error) {
-                        });
-                });
+
             }
+            
+            //Game Description Toggle + Fetch
+            $(".search-results").click(function () {
+                console.log("hi");
+                $(this).removeClass("is-two-fifths");
+                $(this).addClass("is-four-fifths");
+                var gameSummaryClick = ($(this).find("p"));
+                var titleName = ($(this).attr("data-name"))
+                var shortTitleName = titleName.split(",", 1);
+                var gameDescriptionApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + shortTitleName + "&format=json&limit=6";
+                fetch(gameDescriptionApi)
+                    .then(function (ratingResponse) {
+                        return ratingResponse.json();
+                    })
+                    .then(function (ratingResponse) {
+                        console.log(ratingResponse + shortTitleName);
+                        $(gameSummaryClick).text(ratingResponse.results[0].description); 
+                        $(gameSummaryClick).toggle();
+                        console.log("bye"); 
+                    })
+                    .catch(function (error) {
+                    });
+            });
             //Anime Fetch Call
             animeRequest(gameName);
         })
@@ -217,7 +220,7 @@ function animeRequest(gameName) {
                 animeContainer.setAttribute("data-animeCanon", animeResponse.data[i].attributes.canonicalTitle);
                 animeIdArray.push(animeResponse.data[i].id);
 
-                animeContainer.classList = "column anime-class has-background-grey-light has-text-black-bis search-results-anime is-two-fifths has-text-centered mx-3 my-4";
+                animeContainer.classList = "column anime-class has-background-grey-light search-results-anime is-two-fifths has-text-centered mx-3 my-4";
                 resultsContainerEL.appendChild(animeContainer);
                 // div to contain title, rating, and description
                 var animeInfoEl = document.createElement("div");
