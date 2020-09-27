@@ -188,7 +188,7 @@ function animeRequest(gameName) {
 
                 // div for streaming link
                 var animeStream = document.createElement("span");
-                // animeStream.setAttribute("id", "anime-stream");
+                animeStream.setAttribute("id", "anime-stream-" + animeResponse.data[i].id);
                 animeStream.classList = "anime-stream column has-text-centered has-text-left is-size-5 anime-stream-style";
 
                 // create rating span 
@@ -297,9 +297,7 @@ function animeRequest(gameName) {
                         return streamResponse.json();
                     })
                     .then(function (streamResponse) {
-                        console.log(streamResponse);
-                        console.log(streamResponse.data[0].attributes.url);
-                        $(".anime-stream").html("<a href='" + streamResponse.data[0].attributes.url + "' target='_blank'>Watch " + animeCanon + " here!</a>");
+                        $("#anime-stream-" + animeId).html("<a href='" + streamResponse.data[0].attributes.url + "' target='_blank'>Watch " + animeCanon + " here!</a>");
                     })
                     .catch(function (error) {
                     });
