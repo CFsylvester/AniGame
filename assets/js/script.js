@@ -183,20 +183,15 @@ function animeRequest(gameName) {
                 animeTitle.innerHTML = animeResponse.data[i].attributes.canonicalTitle;
                 animeInfoEl.appendChild(animeTitle);
 
-
-                // NEW
                 // div to hold rating and streaming link
                 var animeRatingStreamDiv = document.createElement("div");
-                animeRatingStreamDiv.setAttribute("id", "anime-rating-stream-div");
-                animeRatingStreamDiv.classList = "columns is-vcentered container has-text-centered";
+                // animeRatingStreamDiv.setAttribute("id", "anime-rating-stream-div");
+                animeRatingStreamDiv.classList = "anime-rating-stream-div columns is-vcentered container has-text-centered";
 
                 // div for streaming link
                 var animeStream = document.createElement("span");
-                animeStream.setAttribute("id", "anime-stream");
-                animeStream.classList = "column has-text-centered has-text-left is-size-5 anime-stream-style";
-                // animeStream.innerHTML = "Link to streaming service here";
-
-                // END NEW
+                // animeStream.setAttribute("id", "anime-stream");
+                animeStream.classList = "anime-stream column has-text-centered has-text-left is-size-5 anime-stream-style";
 
                 // create rating span 
                 var animeRatingEl = document.createElement("span");
@@ -267,8 +262,6 @@ function animeRequest(gameName) {
                 animeContainer.appendChild(animeRatingStreamDiv);
                 animeRatingStreamDiv.appendChild(animeRatingEl);
                 animeRatingStreamDiv.appendChild(animeStream);
-                // $("#anime-stream").html("<a href='" + streamResponse.data[0].attributes.url + "' target='_blank'>Watch " + gameName + " here!</a>");
-
 
                 //create anime video
                 var animeVid = document.createElement("iframe");
@@ -297,51 +290,23 @@ function animeRequest(gameName) {
                 var animeFindSpan = ($(this).find("span"));
                 $(animeContainerClick).toggle();
                 $(animeFindSpan).toggle();
+
+                // FETCH AND DISPLAY STREAMING SERVICE LINK
                 var animeId = $(this).attr("data-animeid");
                 var animeCanon = $(this).attr("data-animeCanon");
-                // fetch("https://kitsu.io/api/edge/streaming-links?")
-                fetch("https://kitsu.io/api/edge/streaming-links")
-
-                    // fetch("https://kitsu.io/api/edge/anime?filter[text]=" + animeCanon + "&include=streaming-links.url")
+                fetch("https://kitsu.io/api/edge/anime/" + animeId + "/streaming-links")
                     .then(function (streamResponse) {
                         return streamResponse.json();
                     })
                     .then(function (streamResponse) {
                         console.log(streamResponse);
                         console.log(streamResponse.data[0].attributes.url);
-                        // console.log(streamResponse.data[i].relationships.streamingLinks.links.related);
-                        // var animeStreamApi = streamResponse.data[i].relationships.streamingLinks.links.related;
-                        // fetch(animeStreamApi);
+                        $(".anime-stream").html("<a href='" + streamResponse.data[0].attributes.url + "' target='_blank'>Watch " + animeCanon + " here!</a>");
                     })
-                    // .then(function (animeStreamResponse) {
-                    //     return animeStreamResponse;
-                    // })
-                    // .then(function (animeStreamResponse) {
-                    //     console.log(animeStreamResponse);
-                    // })
                     .catch(function (error) {
                     });
             });
-
-            // FETCH STREAMING SERVICE URL
-            // return fetch("https://kitsu.io/api/edge/streaming-links?filter[id]=" + animeResponse.data[i].id);
-            // return fetch("https://kitsu.io/api/edge/streaming-links?url=" + gameName);
-
-
         });
-    // .then(function (streamResponse) {
-    //     console.log(streamResponse);
-    //     return streamResponse.json();
-    // })
-    // .then(function (streamResponse) {
-    //     console.log(streamResponse);
-    //     console.log(animeIdArray);
-
-    //     for (var i = 0; i < animeIdArray.length; i++) {
-    //         var animeId = animeIdArray[i].value;
-
-    //         $("#anime-stream").html("<a href='" + streamResponse.data[i].attributes.url + "' target='_blank'>Watch " + gameName + " here!</a>");
-    //     }
 };
 
 function searchGame(event) {
