@@ -299,13 +299,16 @@ function animeRequest(gameName) {
                 $(animeFindSpan).toggle();
                 var animeId = $(this).attr("data-animeid");
                 var animeCanon = $(this).attr("data-animeCanon");
-                fetch("https://kitsu.io/api/edge/streaming-links?filter[id]=" + animeId)
-                    // fetch("https://kitsu.io/api/edge/anime?filter[text]=" + animeCanon)
+                // fetch("https://kitsu.io/api/edge/streaming-links?")
+                fetch("https://kitsu.io/api/edge/streaming-links")
+
+                    // fetch("https://kitsu.io/api/edge/anime?filter[text]=" + animeCanon + "&include=streaming-links.url")
                     .then(function (streamResponse) {
                         return streamResponse.json();
                     })
                     .then(function (streamResponse) {
                         console.log(streamResponse);
+                        console.log(streamResponse.data[0].attributes.url);
                         // console.log(streamResponse.data[i].relationships.streamingLinks.links.related);
                         // var animeStreamApi = streamResponse.data[i].relationships.streamingLinks.links.related;
                         // fetch(animeStreamApi);
