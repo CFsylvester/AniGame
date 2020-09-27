@@ -12,6 +12,8 @@ var xboxEl = document.querySelector("#xbox");
 var playstationEl = document.querySelector("#playstation");
 var nintendoEl = document.querySelector("#nintendo");
 var steamEl = document.querySelector("#steam");
+var animeIdArray = [];
+
 
 function gameRequest(gameName) {
     var gameApi = "https://api.rawg.io/api/games?page_size=5&search=" + gameName;
@@ -140,6 +142,7 @@ function gameRequest(gameName) {
                 //Game Description Toggle + Fetch
                 $(".search-results").click(function () {
                     var gameSummaryClick = ($(this).find("p"));
+                    $(gameSummaryClick).toggle();
                     $(this).removeClass("is-two-fifths");
                     $(this).addClass("is-four-fifths");
                     var titleName = ($(this).attr("data-name"))
@@ -197,7 +200,7 @@ function animeRequest(gameName) {
                 return;
             }
 
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < 6; i++) {
                 var animeName = animeResponse.data[i].attributes.canonicalTitle;
                 var animeNameUp = animeName.toUpperCase();
                 var gameNameUp = gameName.toUpperCase();
@@ -210,8 +213,10 @@ function animeRequest(gameName) {
                 // create a container for all the kitsu api results
                 var animeContainer = document.createElement("div");
                 animeContainer.setAttribute("id", "anime-container");
+                animeContainer.setAttribute("data-animeid", animeResponse.data[i].id);
                 animeContainer.setAttribute("data-animeCanon", animeResponse.data[i].attributes.canonicalTitle);
-                console.log(animeResponse); 
+                animeIdArray.push(animeResponse.data[i].id);
+
                 animeContainer.classList = "column anime-class has-background-grey-light has-text-black-bis search-results-anime is-two-fifths has-text-centered mx-3 my-4";
                 resultsContainerEL.appendChild(animeContainer);
                 // div to contain title, rating, and description
@@ -225,11 +230,22 @@ function animeRequest(gameName) {
                 animeTitle.classList = "title has-text-centered is-size-3";
                 animeTitle.innerHTML = animeResponse.data[i].attributes.canonicalTitle;
                 animeInfoEl.appendChild(animeTitle);
+
+                // div to hold rating and streaming link
+                var animeRatingStreamDiv = document.createElement("div");
+                // animeRatingStreamDiv.setAttribute("id", "anime-rating-stream-div");
+                animeRatingStreamDiv.classList = "anime-rating-stream-div columns is-vcentered container has-text-centered";
+
+                // div for streaming link
+                var animeStream = document.createElement("span");
+                animeStream.setAttribute("id", "anime-stream-" + animeResponse.data[i].id);
+                animeStream.classList = "anime-stream column has-text-centered has-text-left is-size-5 anime-stream-style";
+
                 // create rating span 
                 var animeRatingEl = document.createElement("span");
                 animeRatingEl.setAttribute("id", "anime-rating");
-                animeRatingEl.classList = "container has-text-centered is-size-4";
-                var animeRating = animeResponse.data[i].attributes.averageRating; 
+                animeRatingEl.classList = "column container has-text-right is-size-4";
+                var animeRating = animeResponse.data[i].attributes.averageRating;
 
                 //create star elements
                 var animeStar1 = document.createElement("i");
@@ -287,9 +303,14 @@ function animeRequest(gameName) {
                 };
                 // display video of the anime
                 var animeVidContainer = document.createElement("div");
+                animeVidContainer.setAttribute("id", "anime-vid-container");
                 animeVidContainer.classList = "container is-centered";
                 animeContainer.appendChild(animeVidContainer);
-                animeContainer.appendChild(animeRatingEl);
+
+                animeContainer.appendChild(animeRatingStreamDiv);
+                animeRatingStreamDiv.appendChild(animeRatingEl);
+                animeRatingStreamDiv.appendChild(animeStream);
+
                 //create anime video
                 var animeVid = document.createElement("iframe");
                 animeVid.setAttribute("id", "anime-video");
@@ -305,8 +326,9 @@ function animeRequest(gameName) {
                 animeContainer.appendChild(animeDescriptionEl);
 
                 //hidden elements 
-                $(animeRatingEl).hide(); 
-                $(animeDescriptionEl).hide(); 
+                $(animeRatingEl).hide();
+                $(animeDescriptionEl).hide();
+                $(animeStream).hide();
             }
 
             $(".search-results-anime").click(function () {
@@ -316,30 +338,28 @@ function animeRequest(gameName) {
                 var animeFindSpan = ($(this).find("span"));
                 $(animeContainerClick).toggle();
                 $(animeFindSpan).toggle();
+
+                // FETCH AND DISPLAY STREAMING SERVICE LINK
+                var animeId = $(this).attr("data-animeid");
                 var animeCanon = $(this).attr("data-animeCanon");
-                fetch("https://kitsu.io/api/edge/anime?filter[text]=" + animeCanon)
+                fetch("https://kitsu.io/api/edge/anime/" + animeId + "/streaming-links")
                     .then(function (streamResponse) {
                         return streamResponse.json();
                     })
                     .then(function (streamResponse) {
-                        console.log(streamResponse.data[i].relationships.streamingLinks.links.related)
+                        $("#anime-stream-" + animeId).html("<a href='" + streamResponse.data[0].attributes.url + "' target='_blank'>Watch " + animeCanon + " here!</a>");
                     })
                     .catch(function (error) {
                     });
             });
-            // return fetch("https://kitsu.io/api/edge/streaming-links?filter[id]=" + animeResponse.data[i].id);
-            // return fetch("https://kitsu.io/api/edge/streaming-links?url=" + gameName);
         });
 
 };
 
-// var searchGame = function (event) {
 function searchGame(event) {
     event.preventDefault();
 
     var searchValue = searchBar.value.trim().toUpperCase();
-    // clicking search button submits value and calls gameRequest function
-    // console.log("searchValue: " + searchValue);
 
     if (searchValue) {
         gameRequest(searchValue);
