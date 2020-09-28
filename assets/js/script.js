@@ -23,7 +23,7 @@ function gameRequest(gameName) {
             return response.json();
         })
         .then(function (response) {
-            console.log(response);
+            //console.log(response); 
             gameResultsEl.innerHTML = "Game(s) found for " + gameName + ":";
             //Clear gameColumnsContainerEl
             $(gameColumnsContainerEl).empty();
@@ -98,7 +98,7 @@ function gameRequest(gameName) {
                 gameTitleStarSpan.appendChild(gameTitleStar5);
                 //Game Rating if/else
                 var gameRating = response.results[i].rating_top; 
-                console.log(gameRating); 
+                //console.log(gameRating); 
                 if (gameRating <=1) {
                     gameTitleStar1.classList.remove("far");
                     gameTitleStar1.classList.add("fas");
@@ -144,7 +144,7 @@ function gameRequest(gameName) {
             
             //Game Description Toggle + Fetch
             $(".search-results").click(function () {
-                console.log("hi");
+                //console.log("hi");
                 $(this).removeClass("is-two-fifths");
                 $(this).addClass("is-four-fifths");
                 var gameSummaryClick = ($(this).find("p"));
@@ -156,10 +156,10 @@ function gameRequest(gameName) {
                         return ratingResponse.json();
                     })
                     .then(function (ratingResponse) {
-                        console.log(ratingResponse + shortTitleName);
+                        //console.log(ratingResponse + shortTitleName);
                         $(gameSummaryClick).text(ratingResponse.results[0].description); 
                         $(gameSummaryClick).toggle();
-                        console.log("bye"); 
+                        //console.log("bye"); 
                     })
                     .catch(function (error) {
                     });
