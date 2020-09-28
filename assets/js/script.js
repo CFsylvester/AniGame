@@ -47,7 +47,7 @@ function gameRequest(gameName) {
                 //Columns 1 (baseSearchEl) Column 1 (columnImageEl) Stores Image Column 
                 var columnImageEl = document.createElement("div");
                 columnImageEl.setAttribute("id", "column-image");
-                columnImageEl.setAttribute("class", "column is-one-fith is-narrow");
+                columnImageEl.setAttribute("class", "game-col-img column is-one-fith is-narrow");
                 baseSearchEl.appendChild(columnImageEl);
                 //Image
                 var gameImg = document.createElement("img");
@@ -242,7 +242,7 @@ function animeRequest(gameName) {
                 // div for streaming link
                 var animeStream = document.createElement("span");
                 animeStream.setAttribute("id", "anime-stream-" + animeResponse.data[i].id);
-                animeStream.classList = "anime-stream column has-text-centered has-text-left is-size-5 anime-stream-style";
+                animeStream.classList = "anime-stream column is-size-5 anime-stream-style";
 
                 // create rating span 
                 var animeRatingEl = document.createElement("span");
@@ -439,7 +439,7 @@ function loadSearchedGames() {
             var buttonClicked = this.getAttribute("data-game");
 
             gameRequest(buttonClicked);
-        }, {passive: true});
+        });
     }
 };
 
@@ -461,6 +461,6 @@ $("#delete-btn").click(function () {
     $(".game-button").remove();
 });
 
-searchForm.addEventListener("submit", searchGame, {passive:true});
+searchForm.addEventListener("submit", searchGame);
 
 loadSearchedGames();
