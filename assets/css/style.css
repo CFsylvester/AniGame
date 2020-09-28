@@ -5,29 +5,25 @@
     --steamLight: rgba(219, 219, 219, 0.863);
     --offWhite: rgb(230, 227, 227); 
     --offBlack:  rgb(22, 22, 22);
+    --backgroundDark: rgb(39, 39, 39);
 }
 * {
     box-sizing: border-box;
     
 }
-
+body {
+    background-color: var(--backgroundDark);
+    
+}
+/*Navigation*/
 .nav-style {
     padding: 1rem 1rem 0 1rem;
 }
-
 .searchbar-style {
     margin-right: 1rem;
 }
-
-body {
-    background-color: rgb(39, 39, 39);
-    
-}
-.search-results, .anime-class {
-    border-radius: 5px;
-}
-
 /* Base Theme AKA Dark Mode*/
+/*Main*/
 h1 {
     font-family: 'Press Start 2P', cursive;
     color: var(--offWhite);
@@ -38,7 +34,6 @@ h2 {
 }
 h4 {
     font-family: 'Press Start 2P', cursive;
-    color: rgb(39, 39, 39);
     vertical-align: top;
 }
 #console-wars {
@@ -50,6 +45,13 @@ h4 {
 .project-title {
     padding: 3rem;
 }
+#game-results, #anime-results{
+    font-size: 3rem;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--offWhite);
+    text-align: center;
+} 
+/*Search Results Game*/
 .image {
     height: 15rem;
     width: 15rem;
@@ -57,34 +59,48 @@ h4 {
 .search-results h1 {
     font-family: 'VT323', monospace;
 }
+
 .search-results p {
     font-family: 'Share Tech Mono', monospace;
-    color: var(--offBlack);
 }
+.search-results {
+    background-color: #c5c7d4;
+    border: 1px solid var(--offBlack);
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 0 4px rgb(0, 0, 0);
+}
+.search-results:hover {
+    box-shadow: 0 0 10px var(--offWhite);
+    border: 1px solid var(--offWhite);
+}
+/*Search Results Anime*/
 .search-results-anime h3 {
     font-family: 'VT323', monospace;
     padding-bottom: 5px;
 }
-
+.search-results-anime p {
+    font-family: 'Share Tech Mono', monospace;
+}
+#anime-rating-stream-div {
+    padding-top: 5px;
+}
 .anime-stream-style {
     font-family: 'Share Tech Mono', monospace;
     padding-bottom: 5px;
 }
-
-.search-results-anime p {
-    font-family: 'Share Tech Mono', monospace;
+.search-results-anime {
+    background-color: #c5c7d4;
+    border: 1px solid var(--offBlack);
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 0 4px rgb(0, 0, 0);
 }
-
-#anime-rating-stream-div {
-    padding-top: 5px;
+.search-results-anime:hover {
+    box-shadow: 0 0 10px var(--offWhite);
+    border: 1px solid var(--offWhite);
 }
-
-#game-results, #anime-results{
-    font-size: 3rem;
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--offWhite);
-    text-align: center;
-} 
+/*Footer*/
 #footer {
     background-color: rgb(207, 199, 198);
 }
