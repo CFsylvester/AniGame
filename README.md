@@ -32,4 +32,4 @@ git clone <paste url here>
 * [FontAwesome Link](https://fontawesome.com/)
 
 ## License 
-[MIT]()
+[MIT](./LICENSE)
