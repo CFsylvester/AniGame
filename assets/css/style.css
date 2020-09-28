@@ -4,12 +4,12 @@
     --playstationBlue: rgba(0, 17, 255, 0.644); 
     --steamLight: rgba(219, 219, 219, 0.863);
     --offWhite: rgb(230, 227, 227); 
+    --offBlack:  rgb(22, 22, 22);
 }
 * {
     box-sizing: border-box;
     
 }
-
 
 .nav-style {
     padding: 1rem 1rem 0 1rem;
@@ -54,12 +54,17 @@ h4 {
 }
 .project-title {
     padding: 3rem;
-} 
+}
+.image {
+    height: 15rem;
+    width: 15rem;
+}
 .search-results h1 {
     font-family: 'VT323', monospace;
 }
 .search-results p {
     font-family: 'Share Tech Mono', monospace;
+    color: var(--offBlack);
 }
 .search-results-anime h3 {
     font-family: 'VT323', monospace;
@@ -109,6 +114,7 @@ h4 {
     color: rgba(255, 255, 255, 1);
     box-shadow: 0 5px 15px var(--playstationBlue);
 }
+/*
 .playstation-theme .search-results{
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--playstationBlue);
@@ -117,6 +123,7 @@ h4 {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--playstationBlue);
 } 
+*/
 /* xbox Theme */ 
 .xbox-button {
     transition: all 0.2s ease-in-out;
@@ -125,6 +132,7 @@ h4 {
     color: rgba(255, 255, 255, 1);
     box-shadow: 0 5px 15px var(--xBoxGreen);
 }
+/*
 .xbox-theme .search-results{
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--xBoxGreen);
@@ -133,6 +141,7 @@ h4 {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--xBoxGreen);
 } 
+*/
 /* Steam Theme AKA Dark Mode*/ 
 .steam-button {
     transition: all 0.2s ease-in-out;
@@ -141,6 +150,7 @@ h4 {
     color: rgba(255, 255, 255, 1);
     box-shadow: 0 5px 15px var(--steamLight);
 }
+/*
 .steam-theme .search-results{
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--steamLight);
@@ -149,6 +159,7 @@ h4 {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--steamLight);
 } 
+*/
 /* Nintendo Theme */ 
 .nintendo-button {
     transition: all 0.2s ease-in-out;
@@ -157,6 +168,7 @@ h4 {
     color: rgba(255, 255, 255, 1);
     box-shadow: 0 5px 15px var(--nintendoRed);
 }
+/*
 .nintendo-theme .search-results{
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--nintendoRed);
@@ -165,6 +177,7 @@ h4 {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--nintendoRed);
 } 
+
 
 /* MediA Queries */
 
