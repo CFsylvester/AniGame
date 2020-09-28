@@ -32,6 +32,11 @@ h1 {
     font-family: 'Press Start 2P', cursive;
     color: var(--offWhite);
 }
+
+.app-description {
+    text-align: left;
+}
+
 h2 {
     font-family: 'Share Tech Mono', monospace;
     color: var(--offWhite);
@@ -75,8 +80,12 @@ h4 {
     font-family: 'Share Tech Mono', monospace;
 }
 
-#anime-rating-stream-div {
+.anime-rating-stream-div {
     padding-top: 5px;
+}
+
+.anime-stream {
+    text-align: left;
 }
 
 #game-results, #anime-results{
@@ -168,4 +177,57 @@ h4 {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 5px 15px var(--nintendoRed);
 } 
-*/
+
+
+/* MediA Queries */
+
+/* TABLET SIZE */
+@media screen and (max-width: 768px) {
+    .hero-container {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .app-description {
+        text-align: center;
+    }
+
+    .game-col-img {
+        display: flex !important;
+        justify-content: center;
+    }
+
+    .anime-rating-stream-div {
+            display: flex;
+            flex-direction: column;
+    }
+
+    .anime-stream {
+        text-align: center;
+    }
+
+    .app-footer, .footer-info, .devs {
+        display: flex;
+    }
+}
+
+/* Large Mobile Size */ 
+@media screen and (max-width: 425px) {
+    .app-footer, .footer-info, .devs  {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Small Mobile Size */
+@media screen and (max-width: 320px) {
+    .app-title {
+        font-size: 25px !important;
+    }
+
+    .app-description {
+        font-size: 18px !important;
+    }
+}
