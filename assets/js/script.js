@@ -32,7 +32,7 @@ function gameRequest(gameName) {
                 gameColumnEl.setAttribute("id", "game-column");
                 //gameColumnEl.setAttribute('data-description', response.results[i].name);
                 gameColumnEl.setAttribute("data-name", response.results[i].name); 
-                gameColumnEl.setAttribute("class", "column has-background-grey-light search-results is-two-fifths mx-3 my-4");
+                gameColumnEl.setAttribute("class", "column search-results is-two-fifths mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
                 //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
                 var baseSearchEl = document.createElement("div");
@@ -220,7 +220,7 @@ function animeRequest(gameName) {
                 animeContainer.setAttribute("data-animeCanon", animeResponse.data[i].attributes.canonicalTitle);
                 animeIdArray.push(animeResponse.data[i].id);
 
-                animeContainer.classList = "column anime-class has-background-grey-light search-results-anime is-two-fifths has-text-centered mx-3 my-4";
+                animeContainer.classList = "column anime-class search-results-anime is-two-fifths has-text-centered mx-3 my-4";
                 resultsContainerEL.appendChild(animeContainer);
                 // div to contain title, rating, and description
                 var animeInfoEl = document.createElement("div");
