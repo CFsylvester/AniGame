@@ -25,6 +25,7 @@ function gameRequest(gameName) {
         .then(function (response) {
             //console.log(response); 
             gameResultsEl.innerHTML = "Game(s) found for " + gameName + ":";
+            scrolling();
             //Clear gameColumnsContainerEl
             $(gameColumnsContainerEl).empty();
             for (var i = 0; i < response.results.length; i++) {
@@ -39,6 +40,7 @@ function gameRequest(gameName) {
                 baseSearchEl.setAttribute("id", "base-search");
                 baseSearchEl.setAttribute("class", "columns is-vcentered");
                 gameColumnEl.appendChild(baseSearchEl);
+                
                 //Create Columns 2 (baseClickEl)
                 var baseClickEl = document.createElement("div");
                 baseClickEl.setAttribute("id", "base-click");
@@ -172,6 +174,12 @@ function gameRequest(gameName) {
         });
 
 };
+
+function scrolling() {
+    $('html, body').animate({
+        scrollTop: $(gameResultsEl).offset().top-150
+    });
+}
 
 function animeRequest(gameName) {
 
