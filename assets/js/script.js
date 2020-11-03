@@ -4,6 +4,7 @@ var searchBar = document.querySelector("#search-bar");
 var heroEl = document.querySelector("#hero");
 var searchDisplay = document.querySelector("#search-display");
 var contentEl = document.querySelector("#main-content");
+const gameContainer = document.querySelector('#game-container');
 var gameResultsEl = document.querySelector("#game-results");
 var animeResultsEl = document.querySelector("#anime-results");
 var resultsContainerEL = document.querySelector("#results-container");
@@ -24,7 +25,19 @@ function gameRequest(gameName) {
         })
         .then(function (response) {
             //console.log(response); 
-            gameResultsEl.innerHTML = "Game(s) found for " + gameName + ":";
+            gameResultsEl.innerHTML = "Games found for " + gameName + ":";
+
+            // Create a link that scrolls to anime result section
+            const animeLinkEl = document.createElement('div');
+            animeLinkEl.setAttribute('class', 'anime-results-link-div');
+
+            const animeResultsLink = document.createElement('a');
+            animeResultsLink.setAttribute('href', '#anime-container');
+            animeResultsLink.setAttribute('id', 'anime-results-link');
+            animeResultsLink.textContent = 'Click to view Anime Results!';
+            gameResultsEl.appendChild(animeLinkEl);
+            animeLinkEl.appendChild(animeResultsLink);
+
             scrolling();
             //Clear gameColumnsContainerEl
             $(gameColumnsContainerEl).empty();
@@ -32,7 +45,7 @@ function gameRequest(gameName) {
                 var gameColumnEl = document.createElement("div");
                 gameColumnEl.setAttribute("id", "game-column");
                 //gameColumnEl.setAttribute('data-description', response.results[i].name);
-                gameColumnEl.setAttribute("data-name", response.results[i].name); 
+                gameColumnEl.setAttribute("data-name", response.results[i].name);
                 gameColumnEl.setAttribute("class", "column search-results is-two-fifths mx-3 my-4");
                 gameColumnsContainerEl.appendChild(gameColumnEl);
                 //Columns 1 (baseSearchEl) Stores IMAGE and TITLE
@@ -40,7 +53,7 @@ function gameRequest(gameName) {
                 baseSearchEl.setAttribute("id", "base-search");
                 baseSearchEl.setAttribute("class", "columns is-vcentered");
                 gameColumnEl.appendChild(baseSearchEl);
-                
+
                 //Create Columns 2 (baseClickEl)
                 var baseClickEl = document.createElement("div");
                 baseClickEl.setAttribute("id", "base-click");
@@ -99,12 +112,12 @@ function gameRequest(gameName) {
                 gameTitleStarSpan.appendChild(gameTitleStar4);
                 gameTitleStarSpan.appendChild(gameTitleStar5);
                 //Game Rating if/else
-                var gameRating = response.results[i].rating_top; 
+                var gameRating = response.results[i].rating_top;
                 //console.log(gameRating); 
-                if (gameRating <=1) {
+                if (gameRating <= 1) {
                     gameTitleStar1.classList.remove("far");
                     gameTitleStar1.classList.add("fas");
-                } else if (gameRating <= 2 ) {
+                } else if (gameRating <= 2) {
                     gameTitleStar1.classList.remove("far");
                     gameTitleStar1.classList.add("fas");
                     gameTitleStar2.classList.remove("far");
@@ -143,14 +156,14 @@ function gameRequest(gameName) {
                 $(gameSummary).hide();
 
             }
-            
+
             //Game Description Toggle + Fetch
             $(".search-results").click(function () {
                 //console.log("hi");
                 $(this).removeClass("is-two-fifths");
                 $(this).addClass("is-four-fifths");
                 var gameSummaryClick = ($(this).find("p"));
-                var titleName = ($(this).attr("data-name"))
+                var titleName = ($(this).attr("data-name"));
                 var shortTitleName = titleName.split(",", 1);
                 var gameDescriptionApi = "https://cors-anywhere.herokuapp.com/http://www.gamespot.com/api/games/?api_key=" + gamespotKey + "&filter=name:" + shortTitleName + "&format=json&limit=6";
                 fetch(gameDescriptionApi)
@@ -159,7 +172,7 @@ function gameRequest(gameName) {
                     })
                     .then(function (ratingResponse) {
                         //console.log(ratingResponse + shortTitleName);
-                        $(gameSummaryClick).text(ratingResponse.results[0].description); 
+                        $(gameSummaryClick).text(ratingResponse.results[0].description);
                         $(gameSummaryClick).toggle();
                         //console.log("bye"); 
                     })
@@ -177,7 +190,7 @@ function gameRequest(gameName) {
 
 function scrolling() {
     $('html, body').animate({
-        scrollTop: $(gameResultsEl).offset().top-150
+        scrollTop: $(gameResultsEl).offset().top - 150
     });
 }
 
@@ -191,7 +204,7 @@ function animeRequest(gameName) {
         .then(function (animeResponse) {
             // console.log(animeResponse);
             $("#results-container").empty();
-            animeResultsEl.innerHTML = "Anime(s) found for " + gameName + ":";
+            animeResultsEl.innerHTML = "Anime found for " + gameName + ":";
             // convert game title and anime title to uppercase to check for correct titles
             var animeName = animeResponse.data[0].attributes.canonicalTitle;
             var animeNameUp = animeName.toUpperCase();
@@ -228,7 +241,7 @@ function animeRequest(gameName) {
                 animeContainer.setAttribute("data-animeCanon", animeResponse.data[i].attributes.canonicalTitle);
                 animeIdArray.push(animeResponse.data[i].id);
 
-                animeContainer.classList = "column anime-class search-results-anime is-two-fifths has-text-centered mx-3 my-4";
+                animeContainer.classList = "column anime-class anime-content search-results-anime is-two-fifths has-text-centered mx-3 my-4";
                 resultsContainerEL.appendChild(animeContainer);
                 // div to contain title, rating, and description
                 var animeInfoEl = document.createElement("div");
